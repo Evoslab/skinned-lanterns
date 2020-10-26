@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "skinnedlanterns:ghost_lantern_block"
+    },
+    {
+      "item": "minecraft:cyan_dye"
+    }
+  ],
+  "result": {
+    "item": "skinnedlanterns:inky_lantern_block",
+    "count": 1
+  }
+}
