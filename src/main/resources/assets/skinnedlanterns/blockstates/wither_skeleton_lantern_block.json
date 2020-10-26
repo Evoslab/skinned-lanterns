@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,hanging=false": { "model": "skinnedlanterns:block/wither_skeleton_lantern_block" },
+    "facing=south,hanging=false": { "model": "skinnedlanterns:block/wither_skeleton_lantern_block", "y":  180},
+    "facing=west,hanging=false": { "model": "skinnedlanterns:block/wither_skeleton_lantern_block", "y":  270},
+    "facing=east,hanging=false": { "model": "skinnedlanterns:block/wither_skeleton_lantern_block", "y":  90},
+    "facing=north,hanging=true": { "model": "skinnedlanterns:block/wither_skeleton_lantern_hanging_block" },
+    "facing=south,hanging=true": { "model": "skinnedlanterns:block/wither_skeleton_lantern_hanging_block", "y":  180},
+    "facing=west,hanging=true": { "model": "skinnedlanterns:block/wither_skeleton_lantern_hanging_east_west_block", "y":  270},
+    "facing=east,hanging=true": { "model": "skinnedlanterns:block/wither_skeleton_lantern_hanging_east_west_block", "y":  90}
+  }
+}
