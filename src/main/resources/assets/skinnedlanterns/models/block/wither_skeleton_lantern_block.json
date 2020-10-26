@@ -1,0 +1,6 @@
+{
+  "parent": "skinnedlanterns:block/head_lantern_template",
+  "textures": {
+    "2": "skinnedlanterns:blocks/wither_skeleton_lantern"
+  }
+}

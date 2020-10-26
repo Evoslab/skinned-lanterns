@@ -1,0 +1,6 @@
+{
+  "parent": "skinnedlanterns:block/paper_lantern_template",
+  "textures": {
+    "2": "skinnedlanterns:blocks/paper_brown_lantern"
+  }
+}
