@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "skinnedlanterns",
+  "version": "${version}",
+  "name": "Skinned Lanterns",
+  "description": "Allows you to configure the height of clouds in the world.",
+  "authors": [
+    "Draylar"
+  ],
+  "license": "All rights reserved",
+  "icon": "assets/skinnedlanterns/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "maven_group=at.nuxnux.skinnedlanterns.SkinnedLanternsClient"
+    ]
+  },
+  "mixins": [
+  ],
+  "depends": {
+    "fabricloader": ">=0.10.5+build.213",
+    "fabric": "*",
+    "minecraft": ">=1.16.3"
+  }
+}
