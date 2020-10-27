@@ -21,5 +21,9 @@ build
 eclipse
 run
 
+# fabric
+
+run/
+
 # Files from Forge MDK
 forge*changelog.txt
