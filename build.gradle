@@ -1,461 +1,88 @@
-import java.text.SimpleDateFormat
-
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-    }
+plugins {
+    id 'fabric-loom' version '0.5-SNAPSHOT'
+    id 'maven-publish'
 }
-apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
-version = '1.1.1'
-group = 'at.nuxnux.skinnedlanterns' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'skinned_lanterns'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+archivesBaseName = project.archives_base_name
+version = project.mod_version + "-" + project.minecraft_version
+group = project.maven_group
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    // The mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   Snapshot are built nightly.
-    // stable_#            Stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20200514-1.16'
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+}
 
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
-    runs {
-        client {
-            workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                examplemod {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                examplemod {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
-
-            mods {
-                examplemod {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
+repositories {
+    maven { url "http://server.bbkr.space/artifactory/libs-release" }
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.fabricmc.net' }
 }
 
 dependencies {
-    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
-    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
-    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.3-34.1.0'
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // You may put jars on which you depend on in ./libs or you may define them like so..
-    // compile "some.group:artifact:version:classifier"
-    // compile "some.group:artifact:version"
+    // Polymorph for intentional recipe conflicts
+    modImplementation 'com.github.TheIllusiveC4:Polymorph:1.16.x-fabric-SNAPSHOT'
+    include 'com.github.TheIllusiveC4:Polymorph:1.16.x-fabric-SNAPSHOT'
 
-    // Real examples
-    // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
-    // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // These dependencies get remapped to your current MCP mappings
-    // deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // For more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+    // Dev QOL utilities
+    modCompile "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
+    modCompile "io.github.prospector:modmenu:1.14+"
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
-jar {
-    manifest {
-        attributes([
-                "Specification-Title"     : "examplemod",
-                "Specification-Vendor"    : "examplemodsareus",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "examplemodsareus",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
+processResources {
+    inputs.property "version", project.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include "fabric.mod.json"
+        expand "version": project.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "fabric.mod.json"
     }
 }
 
-// Example configuration to allow publishing using the maven-publish task
-// This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar')
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
+// ensure that the encoding is set to UTF-8, no matter what the system default is
+// this fixes some edge cases with special characters not displaying correctly
+// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 
+// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+// if it is present.
+// If you remove this task, sources will not be generated.
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources"
+    from sourceSets.main.allSource
+}
+
+jar {
+    from "LICENSE"
+}
+
+// configure the maven publication
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
+            // add all the jars that should be included when publishing to maven
+            artifact(remapJar) {
+                builtBy remapJar
+            }
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
         }
     }
+
+    // select the repositories you want to publish to
     repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
-
-task createFiles() {
-    def lanterns = new LinkedList<Lantern>()
-    lanterns.add(new Lantern("pufferfish", "Pufferfish", false, true).addCraftingItem("minecraft:pufferfish"))
-    lanterns.add(new Lantern("pufferfish", "Pufferfish", true, true).addCraftingItem("minecraft:pufferfish"))
-    lanterns.add(new Lantern("zombie", "Zombie", false, true).addCraftingItem("minecraft:zombie_head"))
-    lanterns.add(new Lantern("zombie", "Zombie", true, true).addCraftingItem("minecraft:zombie_head").setSoulModel(true))
-    lanterns.add(new Lantern("creeper", "Creeper", false, true).addCraftingItem("minecraft:creeper_head"))
-    lanterns.add(new Lantern("creeper", "Creeper", true, true).addCraftingItem("minecraft:creeper_head").setSoulModel(true))
-    lanterns.add(new Lantern("skeleton", "Skeleton", false, true).addCraftingItem("minecraft:skeleton_skull"))
-    lanterns.add(new Lantern("skeleton", "Skeleton", true, true).addCraftingItem("minecraft:skeleton_skull").setSoulModel(true))
-    lanterns.add(new Lantern("wither_skeleton", "Wither Skeleton", false, true).addCraftingItem("minecraft:wither_skeleton_skull"))
-    lanterns.add(new Lantern("wither_skeleton", "Wither Skeleton", true, true).addCraftingItem("minecraft:wither_skeleton_skull").setSoulModel(true))
-    lanterns.add(new Lantern("bee", "Bee", false, true).addCraftingItem("minecraft:honeycomb"))
-    lanterns.add(new Lantern("bee", "Bee", true, true).addCraftingItem("minecraft:honeycomb"))
-    lanterns.add(new Lantern("jack_o_lantern", "Jack o'Lantern", false, true).addCraftingItem("minecraft:carved_pumpkin"))
-    lanterns.add(new Lantern("jack_o_lantern", "Jack o'Lantern", true, true).addCraftingItem("minecraft:carved_pumpkin").setSoulModel(true))
-    lanterns.add(new Lantern("paper_white", "White Paper", false, false).addCraftingItem("minecraft:paper"))
-    lanterns.add(new Lantern("paper_white", "White Paper", true, false).addCraftingItem("minecraft:paper"))
-    lanterns.add(new Lantern("ghost", "Ghost", false, true).addCraftingItem("minecraft:phantom_membrane"))
-    lanterns.add(new Lantern("ghost", "Ghost", true, true).addCraftingItem("minecraft:phantom_membrane"))
-    lanterns.add(new Lantern("blinky", "Blinky", false, true, "skinnedlanterns:ghost_lantern_block").addCraftingItem("minecraft:red_dye"))
-    lanterns.add(new Lantern("blinky", "Blinky", true, true, "skinnedlanterns:ghost_soul_lantern_block").addCraftingItem("minecraft:red_dye"))
-    lanterns.add(new Lantern("pinky", "Pinky", false, true, "skinnedlanterns:ghost_lantern_block").addCraftingItem("minecraft:pink_dye"))
-    lanterns.add(new Lantern("pinky", "Pinky", true, true, "skinnedlanterns:ghost_soul_lantern_block").addCraftingItem("minecraft:pink_dye"))
-    lanterns.add(new Lantern("inky", "Inky", false, true, "skinnedlanterns:ghost_lantern_block").addCraftingItem("minecraft:cyan_dye"))
-    lanterns.add(new Lantern("inky", "Inky", true, true, "skinnedlanterns:ghost_soul_lantern_block").addCraftingItem("minecraft:cyan_dye"))
-    lanterns.add(new Lantern("clyde", "Clyde", false, true, "skinnedlanterns:ghost_lantern_block").addCraftingItem("minecraft:orange_dye"))
-    lanterns.add(new Lantern("clyde", "Clyde", true, true, "skinnedlanterns:ghost_soul_lantern_block").addCraftingItem("minecraft:orange_dye"))
-    lanterns.add(new Lantern("pacman", "Pac-Man", false, true).addCraftingItem("minecraft:yellow_wool").addCraftingItem("minecraft:black_dye"))
-    lanterns.add(new Lantern("pacman", "Pac-Man", true, true).addCraftingItem("minecraft:yellow_wool").addCraftingItem("minecraft:black_dye"))
-    lanterns.add(new Lantern("guardian", "Guardian", false, true).addCraftingItem("minecraft:prismarine_shard"))
-    lanterns.add(new Lantern("guardian", "Guardian", true, true).addCraftingItem("minecraft:prismarine_shard"))
-    lanterns.add(new Lantern("paper_yellow", "Yellow Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:yellow_dye"))
-    lanterns.add(new Lantern("paper_yellow", "Yellow Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:yellow_dye"))
-    lanterns.add(new Lantern("paper_orange", "Orange Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:orange_dye"))
-    lanterns.add(new Lantern("paper_orange", "Orange Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:orange_dye"))
-    lanterns.add(new Lantern("paper_blue", "Blue Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:blue_dye"))
-    lanterns.add(new Lantern("paper_blue", "Blue Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:blue_dye"))
-    lanterns.add(new Lantern("paper_light_blue", "Light Blue Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:light_blue_dye"))
-    lanterns.add(new Lantern("paper_light_blue", "Light Blue Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:light_blue_dye"))
-    lanterns.add(new Lantern("paper_cyan", "Cyan Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:cyan_dye"))
-    lanterns.add(new Lantern("paper_cyan", "Cyan Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:cyan_dye"))
-    lanterns.add(new Lantern("paper_lime", "Lime Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:lime_dye"))
-    lanterns.add(new Lantern("paper_lime", "Lime Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:lime_dye"))
-    lanterns.add(new Lantern("paper_green", "Green Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:green_dye"))
-    lanterns.add(new Lantern("paper_green", "Green Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:green_dye"))
-    lanterns.add(new Lantern("paper", "Red Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:red_dye"))
-    lanterns.add(new Lantern("paper", "Red Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:red_dye"))
-    lanterns.add(new Lantern("paper_pink", "Pink Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:pink_dye"))
-    lanterns.add(new Lantern("paper_pink", "Pink Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:pink_dye"))
-    lanterns.add(new Lantern("paper_brown", "Brown Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:brown_dye"))
-    lanterns.add(new Lantern("paper_brown", "Brown Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:brown_dye"))
-    lanterns.add(new Lantern("paper_black", "Black Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:black_dye"))
-    lanterns.add(new Lantern("paper_black", "Black Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:black_dye"))
-    lanterns.add(new Lantern("paper_gray", "Gray Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:gray_dye"))
-    lanterns.add(new Lantern("paper_gray", "Gray Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:gray_dye"))
-    lanterns.add(new Lantern("paper_light_gray", "Light Gray Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:light_gray_dye"))
-    lanterns.add(new Lantern("paper_light_gray", "Light Gray Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:light_gray_dye"))
-    lanterns.add(new Lantern("paper_magenta", "Magenta Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:magenta_dye"))
-    lanterns.add(new Lantern("paper_magenta", "Magenta Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:magenta_dye"))
-    lanterns.add(new Lantern("paper_purple", "Purple Paper", false, false, "skinnedlanterns:paper_white_lantern_block").addCraftingItem("minecraft:purple_dye"))
-    lanterns.add(new Lantern("paper_purple", "Purple Paper", true, false, "skinnedlanterns:paper_white_soul_lantern_block").addCraftingItem("minecraft:purple_dye"))
-
-    doLast {
-        //RegistryHandler
-        def regHandlerContent = new StringBuilder()
-        regHandlerContent.append("//Generated Code ${new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date())}\n\n")
-        regHandlerContent.append("package at.nuxnux.skinnedlanterns.util;\n\n")
-        regHandlerContent.append("import at.nuxnux.skinnedlanterns.SkinnedLanterns;\n")
-        regHandlerContent.append("import at.nuxnux.skinnedlanterns.blocks.BlockItemBase;\n")
-        regHandlerContent.append("import at.nuxnux.skinnedlanterns.blocks.SkinnedLanternBlock;\n")
-        regHandlerContent.append("import at.nuxnux.skinnedlanterns.blocks.SkinnedLanternNoFacingBlock;\n")
-        regHandlerContent.append("import at.nuxnux.skinnedlanterns.config.LanternConfig;\n")
-        regHandlerContent.append("import net.minecraft.block.Block;\n")
-        regHandlerContent.append("import net.minecraft.client.renderer.RenderType;\n")
-        regHandlerContent.append("import net.minecraft.client.renderer.RenderTypeLookup;\n")
-        regHandlerContent.append("import net.minecraft.item.Item;\n")
-        regHandlerContent.append("import net.minecraftforge.fml.RegistryObject;\n")
-        regHandlerContent.append("import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;\n")
-        regHandlerContent.append("import net.minecraftforge.registries.DeferredRegister;\n")
-        regHandlerContent.append("import net.minecraftforge.registries.ForgeRegistries;\n")
-        regHandlerContent.append("\n")
-        regHandlerContent.append("public class RegistryHandler {\n")
-        regHandlerContent.append("    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SkinnedLanterns.MOD_ID);\n")
-        regHandlerContent.append("    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SkinnedLanterns.MOD_ID);\n")
-        regHandlerContent.append("\n")
-        regHandlerContent.append("    public static void init() {\n")
-        regHandlerContent.append("        register();\n")
-        regHandlerContent.append("        BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());\n")
-        regHandlerContent.append("        ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());\n")
-        regHandlerContent.append("    }\n")
-        regHandlerContent.append("\n")
-
-        regHandlerContent.append("    public static void setRenderLayer() {\n")
-        lanterns.each { l ->
-            regHandlerContent.append("        if (LanternConfig.${l.getKey()}.get()) {\n")
-            regHandlerContent.append("            RenderTypeLookup.setRenderLayer(${l.getKey()}_block.get(), RenderType.getCutout());\n")
-            regHandlerContent.append("        }\n")
-        }
-        regHandlerContent.append("    }\n")
-
-        regHandlerContent.append("\n")
-        regHandlerContent.append("    private static void register() {\n")
-        lanterns.each { l ->
-            regHandlerContent.append("        if (LanternConfig.${l.getKey()}.get()) {\n")
-            regHandlerContent.append("            ${l.getKey()}_block = BLOCKS.register(\"${l.getKey()}_block\", () -> new ${l.hasFacing ? "SkinnedLanternBlock" : "SkinnedLanternNoFacingBlock"}(${l.isSoul ? "true" : "false"}));\n")
-            regHandlerContent.append("            ${l.getKey()}_block_item = ITEMS.register(\"${l.getKey()}_block\", () -> new BlockItemBase(${l.getKey()}_block.get()));\n")
-            regHandlerContent.append("        }\n")
-
-        }
-        regHandlerContent.append("    }\n")
-        regHandlerContent.append("\n")
-
-        regHandlerContent.append("    //Blocks\n")
-        lanterns.each { l ->
-            regHandlerContent.append("    public static RegistryObject<Block> ${l.getKey()}_block;\n")
-        }
-
-        regHandlerContent.append("\n")
-        regHandlerContent.append("    //Block Items\n")
-        lanterns.each { l ->
-            regHandlerContent.append("    public static RegistryObject<Item> ${l.getKey()}_block_item;\n")
-        }
-
-        regHandlerContent.append("}\n")
-        new File(projectDir.getAbsolutePath() + "/src/main/java/at/nuxnux/skinnedlanterns/util", "RegistryHandler.java").text = regHandlerContent.toString()
-
-
-        //Language File
-        def langContent = new StringBuilder()
-        langContent.append("{\n")
-        langContent.append("  \"itemGroup.moreLanternsTab\": \"Skinned Lanterns\",")
-        lanterns.each { l ->
-            langContent.append("\n  \"block.skinnedlanterns.${l.getKey()}_block\": \"${l.getName()}\",")
-        }
-        langContent.setLength(langContent.length() - 1)
-        langContent.append("\n}")
-        new File(projectDir.getAbsolutePath() + "/src/main/resources/assets/skinnedlanterns/lang", "en_us.json").text = langContent.toString()
-
-
-        //Item models
-        lanterns.each { l ->
-            def parent = l.getKeyNoSoul()
-            if (l.hasSoulModel()) {
-                parent = l.getKey()
-            }
-            new File(projectDir.getAbsolutePath() + "/src/main/resources/assets/skinnedlanterns/models/item", "${l.getKey()}_block.json").text = "{\n  \"parent\": \"skinnedlanterns:block/${parent}_block\"\n}"
-        }
-
-
-        //Recipes
-        lanterns.each { l ->
-            def recipeContent = new StringBuilder()
-            recipeContent.append("{\n")
-            recipeContent.append("  \"type\": \"minecraft:crafting_shapeless\",\n")
-            recipeContent.append("  \"ingredients\": [\n")
-            l.craftingItems.each { c ->
-                recipeContent.append("    {\n")
-                recipeContent.append("      \"item\": \"${c}\"\n")
-                recipeContent.append("    },\n")
-            }
-            recipeContent.setLength(recipeContent.length() - 2)
-            recipeContent.append("\n")
-            recipeContent.append("  ],\n")
-            recipeContent.append("  \"result\": {\n")
-            recipeContent.append("    \"item\": \"skinnedlanterns:${l.getKey()}_block\",\n")
-            recipeContent.append("    \"count\": 1\n")
-            recipeContent.append("  }\n")
-            recipeContent.append("}")
-
-            new File(projectDir.getAbsolutePath() + "/src/main/resources/data/skinnedlanterns/recipes", "${l.getKey()}_block.json").text = recipeContent.toString()
-        }
-
-
-        //Loot tables
-        lanterns.each { l ->
-            def lootContent = new StringBuilder()
-            lootContent.append("{\n")
-            lootContent.append("  \"type\": \"minecraft:block\",\n")
-            lootContent.append("  \"pools\": [\n")
-            lootContent.append("    {\n")
-            lootContent.append("      \"rolls\": 1,\n")
-            lootContent.append("      \"entries\": [\n")
-            lootContent.append("        {\n")
-            lootContent.append("          \"type\": \"minecraft:item\",\n")
-            lootContent.append("          \"name\": \"skinnedlanterns:${l.getKey()}_block\"\n")
-            lootContent.append("        }\n")
-            lootContent.append("      ]\n")
-            lootContent.append("    }\n")
-            lootContent.append("  ]\n")
-            lootContent.append("}")
-
-            new File(projectDir.getAbsolutePath() + "/src/main/resources/data/skinnedlanterns/loot_tables/blocks", "${l.getKey()}_block.json").text = lootContent.toString()
-        }
-
-
-        //Block states
-        lanterns.each { l ->
-            def stateContent = new StringBuilder()
-            stateContent.append("{\n")
-            stateContent.append("  \"variants\": {\n")
-            def key = l.getKeyNoSoul()
-            if (l.hasSoulModel()) {
-                key = l.getKey()
-            }
-            if (l.hasFacing) {
-                stateContent.append("    \"facing=north,hanging=false\": { \"model\": \"skinnedlanterns:block/${key}_block\" },\n")
-                stateContent.append("    \"facing=south,hanging=false\": { \"model\": \"skinnedlanterns:block/${key}_block\", \"y\":  180},\n")
-                stateContent.append("    \"facing=west,hanging=false\": { \"model\": \"skinnedlanterns:block/${key}_block\", \"y\":  270},\n")
-                stateContent.append("    \"facing=east,hanging=false\": { \"model\": \"skinnedlanterns:block/${key}_block\", \"y\":  90},\n")
-                stateContent.append("    \"facing=north,hanging=true\": { \"model\": \"skinnedlanterns:block/${key}_hanging_block\" },\n")
-                stateContent.append("    \"facing=south,hanging=true\": { \"model\": \"skinnedlanterns:block/${key}_hanging_block\", \"y\":  180},\n")
-                stateContent.append("    \"facing=west,hanging=true\": { \"model\": \"skinnedlanterns:block/${key}_hanging_east_west_block\", \"y\":  270},\n")
-                stateContent.append("    \"facing=east,hanging=true\": { \"model\": \"skinnedlanterns:block/${key}_hanging_east_west_block\", \"y\":  90}\n")
-            } else {
-                stateContent.append("    \"hanging=false\": { \"model\": \"skinnedlanterns:block/${key}_block\" },\n")
-                stateContent.append("    \"hanging=true\": { \"model\": \"skinnedlanterns:block/${key}_hanging_block\" }\n")
-            }
-            stateContent.append("  }\n")
-            stateContent.append("}")
-
-            new File(projectDir.getAbsolutePath() + "/src/main/resources/assets/skinnedlanterns/blockstates", "${l.getKey()}_block.json").text = stateContent.toString()
-        }
-
-
-        //LanternConfig
-        def confContent = new StringBuilder()
-        confContent.append("//Generated Code ${new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date())}\n\n")
-        confContent.append("package at.nuxnux.skinnedlanterns.config;\n\n")
-        confContent.append("import net.minecraftforge.common.ForgeConfigSpec;\n")
-        confContent.append("\n")
-        confContent.append("public class LanternConfig {\n")
-
-        lanterns.each { l ->
-            confContent.append("    public static ForgeConfigSpec.BooleanValue ${l.getKey()};\n")
-        }
-
-        confContent.append("\n")
-        confContent.append("    public static void init(ForgeConfigSpec.Builder builder) {\n")
-
-        lanterns.each { l ->
-            confContent.append("        ${l.getKey()} = builder.comment(\"Enable ${l.getName()}\").define(\"lanterns.${l.getKey()}\", true);\n")
-        }
-
-        confContent.append("    }\n")
-        confContent.append("}\n")
-
-        new File(projectDir.getAbsolutePath() + "/src/main/java/at/nuxnux/skinnedlanterns/config", "LanternConfig.java").text = confContent.toString()
-    }
-}
-
-class Lantern {
-    private final String key
-    private final String name
-    public final boolean isSoul
-    public final boolean hasFacing
-    private boolean hasSoulModel = false;
-    public final List<String> craftingItems = new LinkedList<>()
-
-    Lantern(String key, String name, boolean isSoul, boolean hasFacing) {
-        this.key = key
-        this.name = name
-        this.isSoul = isSoul
-        this.hasFacing = hasFacing
-        if (isSoul) {
-            craftingItems.add("minecraft:soul_lantern")
-        } else {
-            craftingItems.add("minecraft:lantern")
-        }
-    }
-
-    Lantern(String key, String name, boolean isSoul, boolean hasFacing, String craftingBase) {
-        this.key = key
-        this.name = name
-        this.isSoul = isSoul
-        this.hasFacing = hasFacing
-        craftingItems.add(craftingBase)
-    }
-
-    String getKey() {
-        if (isSoul) {
-            return key + "_soul_lantern"
-        }
-        return key + "_lantern"
-    }
-
-    String getKeyNoSoul() {
-        return key + "_lantern"
-    }
-
-    String getName() {
-        if (isSoul) {
-            return name + " Soul Lantern"
-        }
-        return name + " Lantern"
-    }
-
-    Lantern addCraftingItem(String item) {
-        craftingItems.add(item)
-        return this
-    }
-
-    Lantern setSoulModel(boolean value) {
-        hasSoulModel = value
-        return this
-    }
-
-    boolean hasSoulModel() {
-        return hasSoulModel
+        // uncomment to publish to the local maven
+        // mavenLocal()
     }
 }
