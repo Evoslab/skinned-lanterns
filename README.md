@@ -28,4 +28,6 @@ None Yet :)
 
 Suggestions or Feedback? Join the [Discord](https://discord.gg/JxQPZX)
 
+## Usage
+
 This Mod may be used in Modpacks
