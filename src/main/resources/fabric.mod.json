@@ -1,25 +1,39 @@
 {
   "schemaVersion": 1,
   "id": "skinnedlanterns",
-  "version": "${version}",
+  "version": "1.0.0",
+
   "name": "Skinned Lanterns",
-  "description": "Allows you to configure the height of clouds in the world.",
+  "description": "Adds more Lanterns to the game! Thanks TechnoVision for the Modding Tutorial, Inspired by Skinned Carts",
   "authors": [
-    "Draylar"
+    "nuxnux",
+    "evo_934",
+    "steveplayzz_"
   ],
-  "license": "All rights reserved",
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns",
+    "sources": "https://github.com/nuxnuxfox/skinnedLanternsFabric"
+  },
+
+  "license": "All Rights Reserved",
   "icon": "assets/skinnedlanterns/icon.png",
+
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "maven_group=at.nuxnux.skinnedlanterns.SkinnedLanternsClient"
+    "main": [
+      "com.github.nuxnux.SkinnedLanterns"
     ]
   },
   "mixins": [
+    "skinnedlanterns.mixins.json"
   ],
+
   "depends": {
-    "fabricloader": ">=0.10.5+build.213",
+    "fabricloader": ">=0.7.4",
     "fabric": "*",
-    "minecraft": ">=1.16.3"
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
   }
 }
