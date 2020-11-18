@@ -1,5 +1,8 @@
 {
   "itemGroup.skinnedlanterns.morelanternstab": "Skinned Lanterns",
+
+  "text.autoconfig.skinnedlanterns.title": "Skinned Lanterns Config",
+
   "block.skinnedlanterns.pufferfish_lantern_block": "Pufferfish Lantern",
   "block.skinnedlanterns.pufferfish_soul_lantern_block": "Pufferfish Soul Lantern",
   "block.skinnedlanterns.zombie_lantern_block": "Zombie Lantern",
