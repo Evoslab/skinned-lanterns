@@ -1,14 +1,16 @@
 package com.github.nuxnux;
 
 import com.github.nuxnux.blocks.SkinnedLanternBlock;
-import com.github.nuxnux.config.LanternConfig;
+import com.github.nuxnux.config.SkinnedLanternConfig;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Material;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.*;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
@@ -16,8 +18,8 @@ import net.minecraft.util.registry.Registry;
 
 public class SkinnedLanterns implements ModInitializer {
 
-	private static final ItemGroup MORELANTERNSTAB = FabricItemGroupBuilder.build(new Identifier("skinnedlanterns", "morelanternstab"), () -> new ItemStack(SkinnedLanterns.PUFFERFISH_LANTERN_BLOCK));
-	public static final LanternConfig CONFIG = AutoConfig.register(LanternConfig.class, GsonConfigSerializer::new).getConfig();
+    private static final ItemGroup MORELANTERNSTAB = FabricItemGroupBuilder.build(new Identifier("skinnedlanterns", "morelanternstab"), () -> new ItemStack(SkinnedLanterns.PUFFERFISH_LANTERN_BLOCK));
+	public static final SkinnedLanternConfig CONFIG = AutoConfig.register(SkinnedLanternConfig.class, GsonConfigSerializer::new).getConfig();
 
 	private static final SkinnedLanternBlock PUFFERFISH_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
 	private static final Item PUFFERFISH_LANTERN_BLOCK_ITEM = new BlockItem(PUFFERFISH_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
@@ -142,6 +144,67 @@ public class SkinnedLanterns implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PUFFERFISH_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PUFFERFISH_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.ZOMBIE_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.ZOMBIE_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.CREEPER_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.CREEPER_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.SKELETON_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.SKELETON_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.WITHER_SKELETON_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.WITHER_SKELETON_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.BEE_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.BEE_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.JACK_O_LANTERN_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.JACK_O_LANTERN_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_WHITE_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_WHITE_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.GHOST_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.GHOST_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.BLINKY_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.BLINKY_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PINKY_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PINKY_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.INKY_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.INKY_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.CLYDE_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.CLYDE_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PACMAN_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PACMAN_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.GUARDIAN_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.GUARDIAN_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_YELLOW_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_YELLOW_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_ORANGE_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_ORANGE_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_BLUE_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_BLUE_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_LIGHT_BLUE_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_LIGHT_BLUE_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_CYAN_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_CYAN_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_LIME_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_LIME_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_GREEN_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_GREEN_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_PINK_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_PINK_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_BROWN_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_BROWN_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_BLACK_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_BLACK_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_GRAY_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_GRAY_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_LIGHT_GRAY_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_LIGHT_GRAY_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_MAGENTA_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_MAGENTA_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_PURPLE_LANTERN_BLOCK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(SkinnedLanterns.PAPER_PURPLE_SOUL_LANTERN_BLOCK, RenderLayer.getCutout());
 
 		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "pufferfish_lantern_block"), PUFFERFISH_LANTERN_BLOCK);
 		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "pufferfish_lantern_block"), PUFFERFISH_LANTERN_BLOCK_ITEM);
