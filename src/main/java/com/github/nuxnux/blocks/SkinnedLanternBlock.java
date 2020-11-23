@@ -1,270 +1,106 @@
-package com.github.nuxnux;
+package com.github.nuxnux.blocks;
 
-import com.github.nuxnux.blocks.SkinnedLanternBlock;
-import com.github.nuxnux.config.LanternConfig;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
-import net.minecraft.block.Material;
-import net.minecraft.item.*;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.block.*;
+import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.Property;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.Nullable;
 
-public class SkinnedLanterns implements ModInitializer {
+public class SkinnedLanternBlock extends LanternBlock implements Waterloggable {
 
-	private static final ItemGroup MORELANTERNSTAB = FabricItemGroupBuilder.build(new Identifier("skinnedlanterns", "morelanternstab"), () -> new ItemStack(SkinnedLanterns.PUFFERFISH_LANTERN_BLOCK));
-	public static final LanternConfig CONFIG = AutoConfig.register(LanternConfig.class, GsonConfigSerializer::new).getConfig();
+    public static final DirectionProperty FACING;
+    public static final BooleanProperty HANGING;
+    public static final BooleanProperty field_26441;
+    protected static final VoxelShape STANDING_SHAPE;
+    protected static final VoxelShape HANGING_SHAPE;
 
-	private static final SkinnedLanternBlock PUFFERFISH_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PUFFERFISH_LANTERN_BLOCK_ITEM = new BlockItem(PUFFERFISH_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PUFFERFISH_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PUFFERFISH_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PUFFERFISH_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock ZOMBIE_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.5f).resistance(3.5f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item ZOMBIE_LANTERN_BLOCK_ITEM = new BlockItem(ZOMBIE_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock ZOMBIE_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item ZOMBIE_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(ZOMBIE_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock CREEPER_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item CREEPER_LANTERN_BLOCK_ITEM = new BlockItem(CREEPER_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock CREEPER_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item CREEPER_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(CREEPER_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock SKELETON_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item SKELETON_LANTERN_BLOCK_ITEM = new BlockItem(SKELETON_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock SKELETON_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item SKELETON_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(SKELETON_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock WITHER_SKELETON_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item WITHER_SKELETON_LANTERN_BLOCK_ITEM = new BlockItem(WITHER_SKELETON_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock WITHER_SKELETON_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item WITHER_SKELETON_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(WITHER_SKELETON_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock BEE_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item BEE_LANTERN_BLOCK_ITEM = new BlockItem(BEE_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock BEE_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item BEE_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(BEE_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock JACK_O_LANTERN_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item JACK_O_LANTERN_LANTERN_BLOCK_ITEM = new BlockItem(JACK_O_LANTERN_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock JACK_O_LANTERN_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item JACK_O_LANTERN_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(JACK_O_LANTERN_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_WHITE_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PAPER_WHITE_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_WHITE_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_WHITE_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_WHITE_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_WHITE_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-    private static final SkinnedLanternBlock GHOST_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-    private static final Item GHOST_LANTERN_BLOCK_ITEM = new BlockItem(GHOST_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-    private static final SkinnedLanternBlock GHOST_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-    private static final Item GHOST_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(GHOST_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-    private static final SkinnedLanternBlock BLINKY_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-    private static final Item BLINKY_LANTERN_BLOCK_ITEM = new BlockItem(BLINKY_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-    private static final SkinnedLanternBlock BLINKY_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-    private static final Item BLINKY_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(BLINKY_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-    private static final SkinnedLanternBlock PINKY_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-    private static final Item PINKY_LANTERN_BLOCK_ITEM = new BlockItem(PINKY_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-    private static final SkinnedLanternBlock PINKY_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-    private static final Item PINKY_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PINKY_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-    private static final SkinnedLanternBlock INKY_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-    private static final Item INKY_LANTERN_BLOCK_ITEM = new BlockItem(INKY_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-    private static final SkinnedLanternBlock INKY_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-    private static final Item INKY_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(INKY_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock CLYDE_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item CLYDE_LANTERN_BLOCK_ITEM = new BlockItem(CLYDE_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock CLYDE_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item CLYDE_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(CLYDE_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PACMAN_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PACMAN_LANTERN_BLOCK_ITEM = new BlockItem(PACMAN_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PACMAN_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PACMAN_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PACMAN_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock GUARDIAN_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item GUARDIAN_LANTERN_BLOCK_ITEM = new BlockItem(GUARDIAN_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock GUARDIAN_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item GUARDIAN_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(GUARDIAN_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_YELLOW_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PAPER_YELLOW_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_YELLOW_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_YELLOW_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_YELLOW_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_YELLOW_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_ORANGE_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PAPER_ORANGE_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_ORANGE_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_ORANGE_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_ORANGE_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_ORANGE_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_BLUE_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PAPER_BLUE_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_BLUE_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_BLUE_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_BLUE_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_BLUE_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_LIGHT_BLUE_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PAPER_LIGHT_BLUE_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_LIGHT_BLUE_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_LIGHT_BLUE_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_LIGHT_BLUE_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_LIGHT_BLUE_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_CYAN_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PAPER_CYAN_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_CYAN_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_CYAN_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_CYAN_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_CYAN_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_LIME_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PAPER_LIME_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_LIME_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_LIME_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_LIME_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_LIME_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_GREEN_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false).requiresTool());
-	private static final Item PAPER_GREEN_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_GREEN_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_GREEN_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_GREEN_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_GREEN_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false));
-	private static final Item PAPER_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_PINK_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false));
-	private static final Item PAPER_PINK_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_PINK_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_PINK_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_PINK_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_PINK_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_BROWN_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false));
-	private static final Item PAPER_BROWN_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_BROWN_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_BROWN_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_BROWN_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_BROWN_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_BLACK_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false));
-	private static final Item PAPER_BLACK_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_BLACK_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_BLACK_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_BLACK_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_BLACK_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_GRAY_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false));
-	private static final Item PAPER_GRAY_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_GRAY_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_GRAY_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_GRAY_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_GRAY_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_LIGHT_GRAY_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false));
-	private static final Item PAPER_LIGHT_GRAY_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_LIGHT_GRAY_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_LIGHT_GRAY_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_LIGHT_GRAY_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_LIGHT_GRAY_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_MAGENTA_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false));
-	private static final Item PAPER_MAGENTA_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_MAGENTA_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_MAGENTA_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_MAGENTA_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_MAGENTA_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_PURPLE_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(15).breakByHand(false));
-	private static final Item PAPER_PURPLE_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_PURPLE_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
-	private static final SkinnedLanternBlock PAPER_PURPLE_SOUL_LANTERN_BLOCK = new SkinnedLanternBlock(FabricBlockSettings.of(Material.METAL).hardness(3.05f).resistance(3.05f).breakByTool(FabricToolTags.PICKAXES).sounds(BlockSoundGroup.LANTERN).lightLevel(10).breakByHand(false).requiresTool());
-	private static final Item PAPER_PURPLE_SOUL_LANTERN_BLOCK_ITEM = new BlockItem(PAPER_PURPLE_SOUL_LANTERN_BLOCK, new Item.Settings().group(MORELANTERNSTAB));
+    public SkinnedLanternBlock(Settings settings) {
+        super(settings.nonOpaque());
+        this.setDefaultState((BlockState)((BlockState)((BlockState)this.stateManager.getDefaultState()).with(HANGING, false)).with(field_26441, false).with(Properties.FACING, Direction.NORTH).with(Properties.FACING, Direction.SOUTH).with(Properties.FACING, Direction.WEST).with(Properties.FACING, Direction.EAST));
+    }
 
-	@Override
-	public void onInitialize() {
+    @Nullable
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+        Direction[] var3 = ctx.getPlacementDirections();
+        int var4 = var3.length;
 
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "pufferfish_lantern_block"), PUFFERFISH_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "pufferfish_lantern_block"), PUFFERFISH_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "pufferfish_soul_lantern_block"), PUFFERFISH_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "pufferfish_soul_lantern_block"), PUFFERFISH_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "zombie_lantern_block"), ZOMBIE_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "zombie_lantern_block"), ZOMBIE_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "zombie_soul_lantern_block"), ZOMBIE_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "zombie_soul_lantern_block"), ZOMBIE_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "creeper_lantern_block"), CREEPER_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "creeper_lantern_block"), CREEPER_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "creeper_soul_lantern_block"), CREEPER_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "creeper_soul_lantern_block"), CREEPER_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "skeleton_lantern_block"), SKELETON_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "skeleton_lantern_block"), SKELETON_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "skeleton_soul_lantern_block"), SKELETON_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "skeleton_soul_lantern_block"), SKELETON_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "wither_skeleton_lantern_block"), WITHER_SKELETON_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "wither_skeleton_lantern_block"), WITHER_SKELETON_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "wither_skeleton_soul_lantern_block"), WITHER_SKELETON_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "wither_skeleton_soul_lantern_block"), WITHER_SKELETON_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "bee_lantern_block"), BEE_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "bee_lantern_block"), BEE_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "bee_soul_lantern_block"), BEE_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "bee_soul_lantern_block"), BEE_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "jack_o_lantern_lantern_block"), JACK_O_LANTERN_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "jack_o_lantern_lantern_block"), JACK_O_LANTERN_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "jack_o_lantern_soul_lantern_block"), JACK_O_LANTERN_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "jack_o_lantern_soul_lantern_block"), JACK_O_LANTERN_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_white_lantern_block"), PAPER_WHITE_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_white_lantern_block"), PAPER_WHITE_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_white_soul_lantern_block"), PAPER_WHITE_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_white_soul_lantern_block"), PAPER_WHITE_SOUL_LANTERN_BLOCK_ITEM);
-        Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "ghost_lantern_block"), GHOST_LANTERN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "ghost_lantern_block"), GHOST_LANTERN_BLOCK_ITEM);
-        Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "ghost_soul_lantern_block"), GHOST_SOUL_LANTERN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "ghost_soul_lantern_block"), GHOST_SOUL_LANTERN_BLOCK_ITEM);
-        Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "blinky_lantern_block"), BLINKY_LANTERN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "blinky_lantern_block"), BLINKY_LANTERN_BLOCK_ITEM);
-        Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "blinky_soul_lantern_block"), BLINKY_SOUL_LANTERN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "blinky_soul_lantern_block"), BLINKY_SOUL_LANTERN_BLOCK_ITEM);
-        Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "pinky_lantern_block"), PINKY_LANTERN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "pinky_lantern_block"), PINKY_LANTERN_BLOCK_ITEM);
-        Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "pinky_soul_lantern_block"), PINKY_SOUL_LANTERN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "pinky_soul_lantern_block"), PINKY_SOUL_LANTERN_BLOCK_ITEM);
-        Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "inky_lantern_block"), INKY_LANTERN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "inky_lantern_block"), INKY_LANTERN_BLOCK_ITEM);
-        Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "inky_soul_lantern_block"), INKY_SOUL_LANTERN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "inky_soul_lantern_block"), INKY_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "clyde_lantern_block"), CLYDE_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "clyde_lantern_block"), CLYDE_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "clyde_soul_lantern_block"), CLYDE_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "clyde_soul_lantern_block"), CLYDE_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "pacman_lantern_block"), PACMAN_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "pacman_lantern_block"), PACMAN_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "pacman_soul_lantern_block"), PACMAN_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "pacman_soul_lantern_block"), PACMAN_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "guardian_lantern_block"), GUARDIAN_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "guardian_lantern_block"), GUARDIAN_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "guardian_soul_lantern_block"), GUARDIAN_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "guardian_soul_lantern_block"), GUARDIAN_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_yellow_lantern_block"), PAPER_YELLOW_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_yellow_lantern_block"), PAPER_YELLOW_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_yellow_soul_lantern_block"), PAPER_YELLOW_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_yellow_soul_lantern_block"), PAPER_YELLOW_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_orange_lantern_block"), PAPER_ORANGE_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_orange_lantern_block"), PAPER_ORANGE_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_orange_soul_lantern_block"), PAPER_ORANGE_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_orange_soul_lantern_block"), PAPER_ORANGE_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_blue_lantern_block"), PAPER_BLUE_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_blue_lantern_block"), PAPER_BLUE_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_blue_soul_lantern_block"), PAPER_BLUE_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_blue_soul_lantern_block"), PAPER_BLUE_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_light_blue_lantern_block"), PAPER_LIGHT_BLUE_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_light_blue_lantern_block"), PAPER_LIGHT_BLUE_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_light_blue_soul_lantern_block"), PAPER_LIGHT_BLUE_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_light_blue_soul_lantern_block"), PAPER_LIGHT_BLUE_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_cyan_lantern_block"), PAPER_CYAN_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_cyan_lantern_block"), PAPER_CYAN_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_cyan_soul_lantern_block"), PAPER_CYAN_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_cyan_soul_lantern_block"), PAPER_CYAN_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_lime_lantern_block"), PAPER_LIME_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_lime_lantern_block"), PAPER_LIME_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_lime_soul_lantern_block"), PAPER_LIME_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_lime_soul_lantern_block"), PAPER_LIME_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_green_lantern_block"), PAPER_GREEN_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_green_lantern_block"), PAPER_GREEN_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_green_soul_lantern_block"), PAPER_GREEN_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_green_soul_lantern_block"), PAPER_GREEN_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_lantern_block"), PAPER_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_lantern_block"), PAPER_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_soul_lantern_block"), PAPER_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_soul_lantern_block"), PAPER_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_pink_lantern_block"), PAPER_PINK_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_pink_lantern_block"), PAPER_PINK_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_pink_soul_lantern_block"), PAPER_PINK_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_pink_soul_lantern_block"), PAPER_PINK_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_brown_lantern_block"), PAPER_BROWN_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_brown_lantern_block"), PAPER_BROWN_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_brown_soul_lantern_block"), PAPER_BROWN_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_brown_soul_lantern_block"), PAPER_BROWN_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_black_lantern_block"), PAPER_BLACK_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_black_lantern_block"), PAPER_BLACK_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_black_soul_lantern_block"), PAPER_BLACK_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_black_soul_lantern_block"), PAPER_BLACK_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_gray_lantern_block"), PAPER_GRAY_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_gray_lantern_block"), PAPER_GRAY_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_gray_soul_lantern_block"), PAPER_GRAY_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_gray_soul_lantern_block"), PAPER_GRAY_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_light_gray_lantern_block"), PAPER_LIGHT_GRAY_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_light_gray_lantern_block"), PAPER_LIGHT_GRAY_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_light_gray_soul_lantern_block"), PAPER_LIGHT_GRAY_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_light_gray_soul_lantern_block"), PAPER_LIGHT_GRAY_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_magenta_lantern_block"), PAPER_MAGENTA_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_magenta_lantern_block"), PAPER_MAGENTA_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_magenta_soul_lantern_block"), PAPER_MAGENTA_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_magenta_soul_lantern_block"), PAPER_MAGENTA_SOUL_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_purple_lantern_block"), PAPER_PURPLE_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_purple_lantern_block"), PAPER_PURPLE_LANTERN_BLOCK_ITEM);
-		Registry.register(Registry.BLOCK, new Identifier("skinnedlanterns", "paper_purple_soul_lantern_block"), PAPER_PURPLE_SOUL_LANTERN_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("skinnedlanterns", "paper_purple_soul_lantern_block"), PAPER_PURPLE_SOUL_LANTERN_BLOCK_ITEM);
+        for(int var5 = 0; var5 < var4; ++var5) {
+            Direction direction = var3[var5];
+            if (direction.getAxis() == Direction.Axis.Y) {
+                BlockState blockState = (BlockState)this.getDefaultState().with(HANGING, direction == Direction.UP).with(FACING, direction);
+                if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
+                    return (BlockState)blockState.with(field_26441, fluidState.getFluid() == Fluids.WATER).with(FACING, ctx.getPlayerFacing());
+                }
+            }
+        }
+        return null;
+    }
 
-		System.out.println("More decorations with skinned lanterns!");
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
 
-	}
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return (Boolean)state.get(HANGING) ? HANGING_SHAPE : STANDING_SHAPE;
+    }
+
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(new Property[]{FACING, HANGING, field_26441});
+    }
+
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        Direction direction = attachedDirection(state).getOpposite();
+        return Block.sideCoversSmallSquare(world, pos.offset(direction), direction.getOpposite());
+    }
+
+
+
+    protected static Direction attachedDirection(BlockState state) {
+        return (Boolean)state.get(HANGING) ? Direction.DOWN : Direction.UP;
+    }
+
+    public PistonBehavior getPistonBehavior(BlockState state) {
+        return PistonBehavior.DESTROY;
+    }
+
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
+        if ((Boolean)state.get(field_26441)) {
+            world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
+        return attachedDirection(state).getOpposite() == direction && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
+    }
+
+    public FluidState getFluidState(BlockState state) {
+        return (Boolean)state.get(field_26441) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+    }
+
+    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+        return false;
+    }
+
+    static {
+        FACING = Properties.FACING;
+        HANGING = Properties.HANGING;
+        field_26441 = Properties.WATERLOGGED;
+        STANDING_SHAPE = VoxelShapes.union(Block.createCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D), Block.createCuboidShape(6.0D, 8.0D, 6.0D, 10.0D, 9.0D, 10.0D));
+        HANGING_SHAPE = VoxelShapes.union(Block.createCuboidShape(4.0D, 1.0D, 4.0D, 12.0D, 9.0D, 12.0D), Block.createCuboidShape(6.0D, 9.0D, 6.0D, 10.0D, 10.0D, 10.0D));
+    }
+
 }
