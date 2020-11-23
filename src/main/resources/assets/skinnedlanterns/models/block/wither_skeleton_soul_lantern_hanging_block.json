@@ -1,6 +1,6 @@
 {
   "parent": "skinnedlanterns:block/head_lantern_hanging_template",
   "textures": {
-    "2": "skinnedlanterns:blocks/wither_skeleton_soul_lantern"
+    "2": "skinnedlanterns:block/wither_skeleton_soul_lantern"
   }
 }

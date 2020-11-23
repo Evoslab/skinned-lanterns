@@ -1,6 +1,6 @@
 {
   "parent": "skinnedlanterns:block/head_lantern_hanging_template",
   "textures": {
-    "2": "skinnedlanterns:blocks/zombie_lantern"
+    "2": "skinnedlanterns:block/zombie_lantern"
   }
 }

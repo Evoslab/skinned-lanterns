@@ -1,6 +1,6 @@
 {
   "parent": "skinnedlanterns:block/ghost_lantern_hanging_east_west_template",
   "textures": {
-    "2": "skinnedlanterns:blocks/pinky_lantern"
+    "2": "skinnedlanterns:block/pinky_lantern"
   }
 }

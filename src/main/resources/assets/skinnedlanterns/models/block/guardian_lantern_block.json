@@ -4,7 +4,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"1": "block/lantern",
-		"2": "skinnedlanterns:blocks/guardien_lantern",
+		"2": "skinnedlanterns:block/guardian_lantern",
 		"particle": "block/chain"
 	},
 	"elements": [
