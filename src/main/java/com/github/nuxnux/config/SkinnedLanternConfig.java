@@ -11,7 +11,7 @@ public class SkinnedLanternConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
 
-    @Comment(value = "Toggles lanterns to be loaded or not (requires restart!)")
+    @Comment(value = "Toggles lanterns to be loaded or not (requires restart! Still in progress, note this does nothing yet...)")
     public static boolean togglePufferfishLantern = true;
 
     public static boolean toggleSoulPufferfishLantern = true;
