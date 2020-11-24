@@ -38,7 +38,7 @@ None Yet :)
 
 ## Discord
 
-Suggestions or Feedback? Join the [Discord](https://discord.gg/JxQPZX)
+Suggestions or Feedback? Join the [Discord](https://discord.gg/MDfJxJZ)
 
 ## Usage
 
