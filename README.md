@@ -16,9 +16,21 @@
 
 All Lanterns can be crafted with Normal and Soul Lanterns to change the light level.
 
-Lanterns can be disabled in the config file.
+Lanterns can't be disabled in the config file. (Will be implemented in later version)
 
- 
+## Mod Implementation
+### Mod Menu
+
+![](https://i.imgur.com/dMYWAjn.png)
+### REI
+
+![](https://i.imgur.com/CDI8Ibi.png)
+### Cloth Config
+
+![](https://i.imgur.com/AkpzyeC.png)
+### Auto Config
+
+![](https://gitlab.com/sargunv-mc-mods/auto-config/-/wikis/uploads/40f156d3bcaa007e5e2c8fd7e5389613/image.png)
 
 ## Mod Compatibility
 
