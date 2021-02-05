@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:lantern"
+    },
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "minecraft:orange_stained_glass"
+    }
+  ],
+  "result": {
+    "item": "skinnedlanterns:ornament_orange_lantern_block",
+    "count": 1
+  }
+}

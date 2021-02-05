@@ -1,6 +1,0 @@
-{
-  "parent": "skinnedlanterns:block/jack_o_lantern_lantern_template",
-  "textures": {
-    "2": "skinnedlanterns:block/jack_o_lantern_ender_lantern"
-  }
-}

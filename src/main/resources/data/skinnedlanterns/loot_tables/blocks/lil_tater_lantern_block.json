@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "skinnedlanterns:lil_tater_lantern_block"
+        }
+      ]
+    }
+  ]
+}

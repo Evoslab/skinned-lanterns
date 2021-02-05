@@ -1,0 +1,6 @@
+{
+  "parent": "skinnedlanterns:block/top_side_lantern_template",
+  "textures": {
+    "2": "skinnedlanterns:block/ornament_purple_lantern"
+  }
+}

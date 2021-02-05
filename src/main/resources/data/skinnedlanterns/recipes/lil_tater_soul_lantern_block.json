@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ltr:lil_tater"
+    },
+    {
+      "item": "minecraft:soul_lantern"
+    }
+  ],
+  "result": {
+    "item": "skinnedlanterns:lil_tater_soul_lantern_block",
+    "count": 1
+  }
+}

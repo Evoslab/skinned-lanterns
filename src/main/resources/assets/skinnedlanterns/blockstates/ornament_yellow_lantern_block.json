@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "hanging=false": { "model": "skinnedlanterns:block/ornament_yellow_lantern_block" },
+    "hanging=true": { "model": "skinnedlanterns:block/ornament_yellow_lantern_hanging_block" }
+  }
+}

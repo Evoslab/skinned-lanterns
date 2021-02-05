@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:soul_lantern"
+    },
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "minecraft:yellow_stained_glass"
+    }
+  ],
+  "result": {
+    "item": "skinnedlanterns:ornament_yellow_soul_lantern_block",
+    "count": 1
+  }
+}
