@@ -1,45 +1,43 @@
-# Skinned Lanterns
 
-*Skinned Lanterns* mod adds skinned Lanterns to the Game.
+#Skinned-Lanterns-Fabric
+
+This Mod adds skinned Lanterns to the Game.
+
+Not using Fabric? There is also a Forge version available [here](https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns).
+
+ 🎄 Christmas Update 🎄
+
+![](https://i.imgur.com/E3UjnnI.png)
+
+![](https://i.imgur.com/Xgu82t8.gif)
 
 ![](https://i.imgur.com/OHXm6A6.png)
 
 ![](https://i.imgur.com/qEl77Pv.gif)
 
-![](https://i.imgur.com/PNjUh1m.png)
+![](https://i.imgur.com/oUNoK2X.png)
 
-![](https://i.imgur.com/oh9Bikk.gif)
+![](https://i.imgur.com/MSoCeip.gif)
 
 ![](https://i.imgur.com/19Yfrtf.png)
 
 ![](https://i.imgur.com/7kZVqJh.gif)
 
-All Lanterns can be crafted with Normal and Soul Lanterns to change the light level.
+##1.17:
+![](https://i.imgur.com/7kZVqJh.gif)
 
-Lanterns can't be disabled in the config file. (Will be implemented in later version)
+**All Lanterns can be crafted with Normal and Soul Lanterns to change the light level.**
 
-## Mod Implementation
-### Mod Menu
+##Mod Compatibility:
 
-![](https://i.imgur.com/dMYWAjn.png)
-### REI
+Little Tater Reloaded (LTR)
+![](https://i.imgur.com/sRfWqlG.png)
 
-![](https://i.imgur.com/CDI8Ibi.png)
-### Cloth Config
+*Requires Fabric API!*
+![](https://media.forgecdn.net/avatars/thumbnails/185/822/64/64/636829723898798601.png)
 
-![](https://i.imgur.com/AkpzyeC.png)
-### Auto Config
+##Discord
 
-![](https://gitlab.com/sargunv-mc-mods/auto-config/-/wikis/uploads/40f156d3bcaa007e5e2c8fd7e5389613/image.png)
-
-## Mod Compatibility
-
-None Yet :)
-
-## Discord
-
-Suggestions or Feedback? Join the [Discord](https://discord.gg/MDfJxJZ)
-
-## Usage
+Suggestions or Feedback? Join the [Discord](https://discord.com/invite/MDfJxJZ)
 
 This Mod may be used in Modpacks
