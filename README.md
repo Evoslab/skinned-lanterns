@@ -24,7 +24,7 @@ Not using Fabric? There is also a Forge version available [here](https://www.cur
 ![](https://i.imgur.com/7kZVqJh.gif)
 
 ## 1.17:
-![](https://i.imgur.com/7kZVqJh.gif)
+![](https://media.discordapp.net/attachments/507982666755473427/787376807757348874/unknown.png)
 
 **All Lanterns can be crafted with Normal and Soul Lanterns to change the light level.**
 
