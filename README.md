@@ -1,5 +1,5 @@
 
-#Skinned-Lanterns-Fabric
+# Skinned-Lanterns-Fabric
 
 This Mod adds skinned Lanterns to the Game.
 
@@ -23,12 +23,12 @@ Not using Fabric? There is also a Forge version available [here](https://www.cur
 
 ![](https://i.imgur.com/7kZVqJh.gif)
 
-##1.17:
+## 1.17:
 ![](https://i.imgur.com/7kZVqJh.gif)
 
 **All Lanterns can be crafted with Normal and Soul Lanterns to change the light level.**
 
-##Mod Compatibility:
+## Mod Compatibility:
 
 Little Tater Reloaded (LTR)
 ![](https://i.imgur.com/sRfWqlG.png)
@@ -36,7 +36,7 @@ Little Tater Reloaded (LTR)
 *Requires Fabric API!*
 ![](https://media.forgecdn.net/avatars/thumbnails/185/822/64/64/636829723898798601.png)
 
-##Discord
+## Discord
 
 Suggestions or Feedback? Join the [Discord](https://discord.com/invite/MDfJxJZ)
 
