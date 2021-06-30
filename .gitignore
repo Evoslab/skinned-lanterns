@@ -28,6 +28,8 @@ gradlew.bat
 gradle/wrapper/
 .project
 .settings/
+out/
+classes/
 
 remappedSrc/
 run/
@@ -36,3 +38,12 @@ build/
 
 .classpath
 .DS_Store
+
+#IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+#vscode
+.vscode/
