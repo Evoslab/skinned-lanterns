@@ -1,42 +1,39 @@
 {
   "schemaVersion": 1,
   "id": "skinnedlanterns",
-  "version": "1.16.5-1.1.3",
-
+  "version": "${version}",
   "name": "Skinned Lanterns",
-  "description": "Adds more Lanterns to the game! Thanks TechnoVision for the Modding Tutorial, Inspired by Skinned Carts",
+  "description": "A mod that adds more Lanterns to the game! Inspired by Skinned Carts!",
   "authors": [
     "nuxnux",
     "evo_934",
-    "steveplayzz"
+    "StevenPlayzz"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns-fabric",
     "sources": "https://github.com/StevePlayzz/Skinned-Lanterns-Fabric"
   },
-
   "license": "MIT",
   "icon": "assets/skinnedlanterns/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.nuxnux.skinnedlanterns.SkinnedLanterns"
+      "at.nuxnux.skinnedlanterns.SkinnedLanterns"
     ],
     "client": [
-      "com.github.nuxnux.skinnedlanterns.SkinnedLanternsClient"
+      "at.nuxnux.skinnedlanterns.SkinnedLanternsClient"
+    ],
+    "modmenu": [
+      "at.nuxnux.skinnedlanterns.config.SkinnedLanternsModMenuCompat"
     ]
   },
-  "mixins": [
-    "skinnedlanterns.mixins.json"
-  ],
-
+  "mixins": [],
   "depends": {
+    "minecraft": "1.16.x",
     "fabricloader": ">=0.7.4",
-    "fabric": "*",
-    "minecraft": "1.16.x"
+    "fabric": "*"
   },
   "suggests": {
-    "flamingo": "*"
+    "ltr": "*"
   }
 }
