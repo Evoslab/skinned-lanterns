@@ -1,5 +1,6 @@
 {
-  "itemGroup.skinnedlanterns.morelanternstab": "Skinned Lanterns",
+  "itemGroup.skinnedlanterns.morelanternsgroup": "Skinned Lanterns",
+
   "block.skinnedlanterns.pufferfish_lantern_block": "Farolillo de pez globo",
   "block.skinnedlanterns.pufferfish_soul_lantern_block": "Farolillo de almas de pez globo",
   "block.skinnedlanterns.zombie_lantern_block": "Farolillo de zombi",
