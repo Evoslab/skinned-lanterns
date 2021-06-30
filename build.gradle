@@ -23,6 +23,10 @@ repositories {
         name = "Curse"
         url = "https://www.cursemaven.com"
     }
+    maven {
+        name = "Cotton"
+        url = "https://server.bbkr.space/artifactory/libs-release"
+    }
 }
 
 dependencies {
