@@ -41,6 +41,10 @@ dependencies {
     //Modmenu
     modCompileOnly("com.terraformersmc:modmenu:${project.modmenu_version}") {transitive(false)}
     modRuntime("com.terraformersmc:modmenu:${project.modmenu_version}")
+    
+    //LibCD
+    modApi "io.github.cottonmc:LibCD:${project.libcd_version}"
+    include "io.github.cottonmc:LibCD:${project.libcd_version}"
 
     //LTR
     modRuntime 'curse.maven:lil-tater-reloaded-383066:3086860'
