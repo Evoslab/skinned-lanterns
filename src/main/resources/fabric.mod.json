@@ -29,9 +29,11 @@
   },
   "mixins": [],
   "depends": {
-    "minecraft": "1.16.x",
-    "fabricloader": ">=0.7.4",
-    "fabric": "*"
+    "java": ">=16",
+    "minecraft": "1.17.x",
+    "fabric": "*",
+    "fabricloader": ">=0.11.3",
+    "libcd": "*"
   },
   "suggests": {
     "ltr": "*"

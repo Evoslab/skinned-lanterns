@@ -25,7 +25,7 @@ public class SkinnedLanternBlock extends LanternBlock implements Waterloggable {
 
     public SkinnedLanternBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(field_26441, false).with(HANGING, false));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(WATERLOGGED, false).with(HANGING, false));
     }
 
     @Nullable
@@ -40,7 +40,7 @@ public class SkinnedLanternBlock extends LanternBlock implements Waterloggable {
             if (direction.getAxis() == Direction.Axis.Y) {
                 BlockState blockState = (BlockState)this.getDefaultState().with(HANGING, direction == Direction.UP);
                 if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
-                    return (BlockState)blockState.with(field_26441, fluidState.getFluid() == Fluids.WATER);
+                    return (BlockState)blockState.with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
                 }
             }
         }
@@ -50,17 +50,17 @@ public class SkinnedLanternBlock extends LanternBlock implements Waterloggable {
 
     @Override
     public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING).add(field_26441).add(HANGING);
+        builder.add(FACING).add(WATERLOGGED).add(HANGING);
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.get(field_26441) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     @Override
     public BlockState getStateForNeighborUpdate(BlockState stateIn, Direction facing, BlockState facingState, WorldAccess worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (stateIn.get(field_26441)) {
+        if (stateIn.get(WATERLOGGED)) {
             worldIn.getFluidTickScheduler().schedule(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
         }
 
