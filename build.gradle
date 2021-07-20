@@ -54,7 +54,9 @@ dependencies {
     modRuntime 'curse.maven:lil-tater-reloaded-383066:3353428'
 }
 
-sourceSets.main.resources.srcDirs += file "src/generated/resources"
+sourceSets.main.resources {
+    srcDirs += "$projectDir/src/generated/resources"
+}
 
 processResources {
     inputs.property "version", project.version
