@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Level;
 import java.nio.file.Paths;
 
 public class SkinnedDataGen {
-    public static final DataGeneratorHandler handler = DataGeneratorHandler.create(Paths.get("../src/generated/resources"));
+    public static final DataGeneratorHandler handler = DataGeneratorHandler.create(Paths.get("./src/generated/resources"));
 
     public static void init() {
         ModelStateData modelStates = handler.getModelStates();
