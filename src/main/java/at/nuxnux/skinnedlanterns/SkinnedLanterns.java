@@ -31,17 +31,6 @@ public class SkinnedLanterns implements ModInitializer {
 		log(Level.INFO, "Skinning the Lanterns!");
 	}
 
-	public static class Settings {
-		public static final FabricBlockSettings LANTERN = FabricBlockSettings
-				.copyOf(Blocks.LANTERN)
-				.lightLevel(15)
-				.breakByHand(false);
-		public static final FabricBlockSettings SOUL_LANTERN = FabricBlockSettings
-				.copyOf(Blocks.SOUL_LANTERN)
-				.lightLevel(15)
-				.breakByHand(false);
-	}
-
 	public static Identifier id(String name) {
 		return new Identifier(MOD_ID, name);
 	}

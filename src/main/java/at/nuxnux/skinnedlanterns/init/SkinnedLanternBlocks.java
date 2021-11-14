@@ -4,8 +4,10 @@ import at.nuxnux.skinnedlanterns.SkinnedLanterns;
 import at.nuxnux.skinnedlanterns.block.SkinnedLanternBlock;
 import at.nuxnux.skinnedlanterns.config.SkinnedLanternsConfig;
 import at.nuxnux.skinnedlanterns.block.SkinnedLanternNoFacingBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -171,18 +173,29 @@ public class SkinnedLanternBlocks {
     }
 
     public static SkinnedLanternNoFacingBlock SkinnedNoFacingBlock() {
-        return new SkinnedLanternNoFacingBlock(SkinnedLanterns.Settings.LANTERN);
+        return new SkinnedLanternNoFacingBlock(Settings.LANTERN);
     }
 
     public static SkinnedLanternBlock SkinnedBlock() {
-        return new SkinnedLanternBlock(SkinnedLanterns.Settings.LANTERN);
+        return new SkinnedLanternBlock(Settings.LANTERN);
     }
 
     public static SkinnedLanternNoFacingBlock SoulSkinnedNoFacingBlock() {
-        return new SkinnedLanternNoFacingBlock(SkinnedLanterns.Settings.SOUL_LANTERN);
+        return new SkinnedLanternNoFacingBlock(Settings.SOUL_LANTERN);
     }
 
     public static SkinnedLanternBlock SoulSkinnedBlock() {
-        return new SkinnedLanternBlock(SkinnedLanterns.Settings.SOUL_LANTERN);
+        return new SkinnedLanternBlock(Settings.SOUL_LANTERN);
+    }
+
+    public static class Settings {
+        public static final FabricBlockSettings LANTERN = FabricBlockSettings
+                .copyOf(Blocks.LANTERN)
+                .lightLevel(15)
+                .breakByHand(false);
+        public static final FabricBlockSettings SOUL_LANTERN = FabricBlockSettings
+                .copyOf(Blocks.SOUL_LANTERN)
+                .lightLevel(15)
+                .breakByHand(false);
     }
 }
