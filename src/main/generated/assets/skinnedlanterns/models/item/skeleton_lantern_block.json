@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "skinnedlanterns:block/skeleton_lantern_block"
+  }
+}

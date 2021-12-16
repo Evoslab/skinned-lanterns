@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "skinnedlanterns:block/blinky_lantern_block"
+  }
+}

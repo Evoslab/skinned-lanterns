@@ -1,41 +1,49 @@
 {
   "schemaVersion": 1,
+
   "id": "skinnedlanterns",
   "version": "${version}",
+  "license": "MIT",
+
   "name": "Skinned Lanterns",
+  "icon": "assets/skinnedlanterns/icon.png",
   "description": "A mod that adds more Lanterns to the game! Inspired by Skinned Carts!",
+
   "authors": [
-    "nuxnux",
-    "evo_934",
+    "Nuxnux",
+    "Evoli_934",
     "StevenPlayzz"
   ],
+
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns-fabric",
-    "sources": "https://github.com/StevePlayzz/Skinned-Lanterns-Fabric"
+    "sources": "https://github.com/StevePlayzz/Skinned-Lanterns-Fabric",
+    "issues": "https://github.com/StevePlayzz/Skinned-Lanterns-Fabric/issues"
   },
-  "license": "MIT",
-  "icon": "assets/skinnedlanterns/icon.png",
+
   "environment": "*",
   "entrypoints": {
     "main": [
-      "at.nuxnux.skinnedlanterns.SkinnedLanterns"
+      "me.stevenplayzz.skinnedlanterns.SkinnedLanterns"
     ],
-    "client": [
-      "at.nuxnux.skinnedlanterns.SkinnedLanternsClient"
-    ],
-    "modmenu": [
-      "at.nuxnux.skinnedlanterns.config.SkinnedLanternsModMenuCompat"
+    "fabric-datagen": [
+      "me.stevenplayzz.skinnedlanterns.datagen.impl.SkinnedLanternsDataGen"
     ]
   },
-  "mixins": [],
+
   "depends": {
-    "java": ">=16",
-    "minecraft": "1.17.x",
+    "fabricloader": ">=0.12.6",
     "fabric": "*",
-    "fabricloader": ">=0.11.3",
-    "libcd": "*"
+    "minecraft": "1.18.x",
+    "java": ">=17"
   },
-  "suggests": {
-    "ltr": "*"
+
+  "custom": {
+    "modmenu": {
+      "badges": [],
+      "links": {
+        "mod.example.contact.discord": "https://discord.gg/MDfJxJZ"
+      }
+    }
   }
 }

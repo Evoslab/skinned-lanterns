@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "skinnedlanterns:block/present_green_lantern_block"
+  }
+}
