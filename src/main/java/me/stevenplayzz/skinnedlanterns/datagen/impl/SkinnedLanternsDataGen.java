@@ -26,7 +26,6 @@ package me.stevenplayzz.skinnedlanterns.datagen.impl;
 
 import me.stevenplayzz.skinnedlanterns.datagen.impl.provider.BlockLootTablesProvider;
 import me.stevenplayzz.skinnedlanterns.datagen.impl.provider.BlockStateDefinitionProvider;
-import me.stevenplayzz.skinnedlanterns.datagen.impl.provider.RecipesProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
@@ -35,6 +34,6 @@ public class SkinnedLanternsDataGen implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         fabricDataGenerator.addProvider(BlockLootTablesProvider::new);
         fabricDataGenerator.addProvider(BlockStateDefinitionProvider::new);
-        fabricDataGenerator.addProvider(RecipesProvider::new);
+//        fabricDataGenerator.addProvider(RecipesProvider::new);
     }
 }

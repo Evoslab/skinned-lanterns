@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "skinnedlanterns:block/ornament_black_soul_lantern_block"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "skinnedlanterns:block/paper_purple_lantern_block"
-  }
-}
