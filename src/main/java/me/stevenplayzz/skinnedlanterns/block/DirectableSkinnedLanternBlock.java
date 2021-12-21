@@ -28,24 +28,15 @@ public class DirectableSkinnedLanternBlock extends LanternBlock implements Water
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(WATERLOGGED, false).with(HANGING, false));
     }
 
-
-    @Nullable
     @Override
-    public BlockState getPlacementState(@NotNull ItemPlacementContext ctx) {
+    @Nullable
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
         FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-        Direction[] var3 = ctx.getPlacementDirections();
-        int var4 = var3.length;
-
-        for(int var5 = 0; var5 < var4; ++var5) {
-            Direction direction = var3[var5];
-            if (direction.getAxis() == Direction.Axis.Y) {
-                BlockState blockState = this.getDefaultState().with(HANGING, direction == Direction.UP).with(FACING, direction);
-                if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
-                    return blockState.with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER).with(FACING, ctx.getPlayerFacing());
-                }
-            }
+        for (Direction direction : ctx.getPlacementDirections()) {
+            BlockState blockState;
+            if (direction.getAxis() != Direction.Axis.Y || !(blockState = this.getDefaultState().with(HANGING, direction == Direction.UP)).canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) continue;
+                return blockState.with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER).with(FACING, ctx.getPlayerFacing());
         }
-
         return null;
     }
 
@@ -86,6 +77,6 @@ public class DirectableSkinnedLanternBlock extends LanternBlock implements Water
     static {
         STANDING_SHAPE = VoxelShapes.union(Block.createCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D), Block.createCuboidShape(6.0D, 8.0D, 6.0D, 10.0D, 9.0D, 10.0D));
         HANGING_SHAPE = VoxelShapes.union(Block.createCuboidShape(4.0D, 1.0D, 4.0D, 12.0D, 9.0D, 12.0D), Block.createCuboidShape(6.0D, 9.0D, 6.0D, 10.0D, 10.0D, 10.0D));
-        FACING = Properties.FACING;
+        FACING = Properties.HORIZONTAL_FACING;
     }
 }

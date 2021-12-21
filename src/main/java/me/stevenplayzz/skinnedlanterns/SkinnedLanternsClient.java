@@ -3,6 +3,7 @@ package me.stevenplayzz.skinnedlanterns;
 import me.stevenplayzz.skinnedlanterns.block.SkinnedLanternBlocks;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.render.RenderLayer;
 
 public class SkinnedLanternsClient implements ClientModInitializer {
@@ -10,10 +11,7 @@ public class SkinnedLanternsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(),
                 SkinnedLanternBlocks.PUFFERFISH_LANTERN_BLOCK,
                 SkinnedLanternBlocks.PUFFERFISH_SOUL_LANTERN_BLOCK,
-//                SkinnedLanternBlocks.JELLYFISH_LANTERN_BLOCK,
-//                SkinnedLanternBlocks.JELLYFISH_SOUL_LANTERN_BLOCK,
-//                SkinnedLanternBlocks.BLUE_JELLYFISH_LANTERN_BLOCK,
-//                SkinnedLanternBlocks.BLUE_JELLYFISH_SOUL_LANTERN_BLOCK,
+
                 SkinnedLanternBlocks.HONEY_LANTERN_BLOCK,
                 SkinnedLanternBlocks.HONEY_SOUL_LANTERN_BLOCK,
                 SkinnedLanternBlocks.SLIME_LANTERN_BLOCK,
@@ -21,6 +19,14 @@ public class SkinnedLanternsClient implements ClientModInitializer {
                 SkinnedLanternBlocks.BEE_LANTERN_BLOCK,
                 SkinnedLanternBlocks.BEE_SOUL_LANTERN_BLOCK
         );
+        if (FabricLoader.getInstance().isModLoaded("jellyfishing")) {
+            BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
+                    SkinnedLanternBlocks.JELLYFISH_LANTERN_BLOCK,
+                    SkinnedLanternBlocks.JELLYFISH_SOUL_LANTERN_BLOCK,
+                    SkinnedLanternBlocks.BLUE_JELLYFISH_LANTERN_BLOCK,
+                    SkinnedLanternBlocks.BLUE_JELLYFISH_SOUL_LANTERN_BLOCK
+            );
+        }
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 SkinnedLanternBlocks.ZOMBIE_LANTERN_BLOCK,
@@ -143,8 +149,12 @@ public class SkinnedLanternsClient implements ClientModInitializer {
                 SkinnedLanternBlocks.PRESENT_RED_SOUL_LANTERN_BLOCK,
                 SkinnedLanternBlocks.SNOWMAN_LANTERN_BLOCK,
                 SkinnedLanternBlocks.SNOWMAN_SOUL_LANTERN_BLOCK
-//                SkinnedLanternBlocks.LIL_TATER_LANTERN_BLOCK,
-//                SkinnedLanternBlocks.LIL_TATER_SOUL_LANTERN_BLOCK
         );
+        if (FabricLoader.getInstance().isModLoaded("botania")) {
+            BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
+                    SkinnedLanternBlocks.TINY_POTATO_LANTERN_BLOCK,
+                    SkinnedLanternBlocks.TINY_POTATO_SOUL_LANTERN_BLOCK
+            );
+        }
     }
 }

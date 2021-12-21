@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "botania:tiny_potato"
+    },
+    {
+      "item": "minecraft:lantern"
+    }
+  ],
+  "result": {
+    "item": "skinnedlanterns:lil_tater_lantern_block",
+    "count": 1
+  }
+}

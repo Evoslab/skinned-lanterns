@@ -3,6 +3,7 @@ package me.stevenplayzz.skinnedlanterns.block;
 import me.stevenplayzz.skinnedlanterns.SkinnedLanterns;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
@@ -109,18 +110,18 @@ public class SkinnedLanternBlocks {
     public static Block SNOWMAN_LANTERN_BLOCK = registerDSLB("snowman_lantern_block", false);
     public static Block SNOWMAN_SOUL_LANTERN_BLOCK = registerDSLB("snowman_soul_lantern_block", true);
 
-//    public static Block JELLYFISH_LANTERN_BLOCK = registerCompactBlock("jellyfish_lantern_block", "jellyfishing", false);
-//    public static Block JELLYFISH_SOUL_LANTERN_BLOCK = registerCompactBlock("jellyfish_soul_lantern_block", "jellyfishing", true);
-//    public static Block BLUE_JELLYFISH_LANTERN_BLOCK = registerCompactBlock("blue_jellyfish_lantern_block", "jellyfishing", false);
-//    public static Block BLUE_JELLYFISH_SOUL_LANTERN_BLOCK = registerCompactBlock("blue_jellyfish_soul_lantern_block", "jellyfishing", true);
+    public static Block JELLYFISH_LANTERN_BLOCK = registerCompactBlock("jellyfish_lantern_block", "jellyfishing", false);
+    public static Block JELLYFISH_SOUL_LANTERN_BLOCK = registerCompactBlock("jellyfish_soul_lantern_block", "jellyfishing", true);
+    public static Block BLUE_JELLYFISH_LANTERN_BLOCK = registerCompactBlock("blue_jellyfish_lantern_block", "jellyfishing", false);
+    public static Block BLUE_JELLYFISH_SOUL_LANTERN_BLOCK = registerCompactBlock("blue_jellyfish_soul_lantern_block", "jellyfishing", true);
 
     public static Block HONEY_LANTERN_BLOCK = registerNDSLB("honey_lantern_block", false);
     public static Block HONEY_SOUL_LANTERN_BLOCK = registerNDSLB("honey_soul_lantern_block", true);
     public static Block SLIME_LANTERN_BLOCK = registerDSLB("slime_lantern_block", false);
     public static Block SLIME_SOUL_LANTERN_BLOCK = registerDSLB("slime_soul_lantern_block", true);
 
-//    public static Block LIL_TATER_LANTERN_BLOCK = registerCompactBlock("lil_tater", "ltr", false);
-//    public static Block LIL_TATER_SOUL_LANTERN_BLOCK = registerCompactBlock("lil_tater_soul", "ltr", false);
+    public static Block TINY_POTATO_LANTERN_BLOCK = registerCompactBlock("tiny_potato_lantern_block", "botania", false);
+    public static Block TINY_POTATO_SOUL_LANTERN_BLOCK = registerCompactBlock("tiny_potato_soul_lantern_block", "botania", true);
 
     private static Block register(String id, Block block, boolean registerItem) {
         Block registered = Registry.register(Registry.BLOCK, SkinnedLanterns.id(id), block);
@@ -142,5 +143,11 @@ public class SkinnedLanternBlocks {
         if (isSoul)
             lanternBlockType = Blocks.SOUL_LANTERN;
         return register(id, new NonDirectableSkinnedLanternBlock(FabricBlockSettings.copyOf(lanternBlockType)), true);
+    }
+
+    private static Block registerCompactBlock(String id, String modID, boolean isSoul) {
+        if (FabricLoader.getInstance().isModLoaded(modID))
+            return registerDSLB(id, isSoul);
+        else return null;
     }
 }

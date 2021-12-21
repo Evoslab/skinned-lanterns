@@ -26,6 +26,9 @@
     "main": [
       "me.stevenplayzz.skinnedlanterns.SkinnedLanterns"
     ],
+    "client": [
+      "me.stevenplayzz.skinnedlanterns.SkinnedLanternsClient"
+    ],
     "fabric-datagen": [
       "me.stevenplayzz.skinnedlanterns.datagen.impl.SkinnedLanternsDataGen"
     ]
@@ -35,7 +38,8 @@
     "fabricloader": ">=0.12.6",
     "fabric": "*",
     "minecraft": "1.18.x",
-    "java": ">=17"
+    "java": ">=17",
+    "libcd": "3.0.3+1.16.3"
   },
 
   "custom": {

@@ -8,7 +8,6 @@ targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.mod_id
 group = project.maven_group
-
 version = System.env.GITHUB_ACTIONS == "true"
         ? "${project.mod_version}+build.${System.env.GITHUB_RUN_NUMBER}"
         : project.mod_version
@@ -33,31 +32,73 @@ repositories {
         name = "Terraformers Maven"
         url  = "https://maven.terraformersmc.com/releases/"
     }
-    maven {
-        name = "Terraformers Backup Maven"
-        url  = "https://maven.terraformersmc.com/releases/"
-    }
 
     maven {
         name = "Quilt Maven"
         url  = "https://maven.quiltmc.org/repository/release/"
     }
+
+    maven {
+        name = "CottonMC"
+        url = "https://server.bbkr.space/artifactory/libs-release"
+    }
+
+    maven {
+        name = "Jared"
+        url = "https://maven.blamejared.com/"
+    }
+
+    maven {
+        name = "Ladysnake Libs"
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
+
+    maven {
+        name = "Shedaniel Maven"
+        url = "https://maven.shedaniel.me/"
+    }
+
+    maven {
+        name "Jamieswhiteshirt Maven"
+        url "https://maven.jamieswhiteshirt.com/libs-release/"
+    }
+
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
-    // required
+    // Required
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_build}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    // dependencies
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}+${project.minecraft_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation("com.terraformersmc:modmenu:${project.mod_menu_version}") { exclude group: "net.fabricmc.fabric-api" }
-    // modImplementation("net.shadew:jedt:${project.jedt_version}") { exclude group: "net.fabricmc.fabric-api" }
+    // Libraries
+    modImplementation ("com.terraformersmc:modmenu:${project.mod_menu_version}") { exclude group: "net.fabricmc.fabric-api" }
+    modImplementation "io.github.cottonmc:LibCD:${project.libcd_version}"
 
-    // utilities
-    modRuntimeOnly("com.github.joaoh1:OkZoomer:${project.okzoomer_version}") { exclude group: "net.fabricmc.fabric-api" }
+    include "io.github.cottonmc:LibCD:${project.libcd_version}"
+
+    //modImplementation("net.shadew:jedt:${project.jedt_version}") { exclude group: "net.fabricmc.fabric-api" }
+
+    // Compatibility
+//    modImplementation "vazkii.botania:Botania:1.18.1-425-FABRIC-SNAPSHOT"
+//    modImplementation "vazkii.patchouli:Patchouli:1.18.1-61-FABRIC"
+//    modImplementation "dev.emi:trinkets:3.1.0"
+//    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-block:4.0.1"
+//    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.1"
+//    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.1"
+//    modImplementation "com.jamieswhiteshirt:reach-entity-attributes:2.1.1"
+//    modImplementation "me.zeroeightsix:fiber:0.23.0-2"
+
+    //jellyfishing
+
+    // Utilities
+    //modRuntimeOnly ("com.github.joaoh1:OkZoomer:${project.okzoomer_version}") { exclude group: "net.fabricmc.fabric-api" }
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:7.0.343"
 }
 
 loom {

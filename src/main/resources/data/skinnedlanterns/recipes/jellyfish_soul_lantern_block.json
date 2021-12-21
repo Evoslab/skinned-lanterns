@@ -5,10 +5,7 @@
       "item": "minecraft:soul_lantern"
     },
     {
-      "item": "minecraft:slime_ball"
-    },
-    {
-      "item": "minecraft:pink_dye"
+      "item": "jellyfishing:jellyfish_jelly"
     }
   ],
   "result": {

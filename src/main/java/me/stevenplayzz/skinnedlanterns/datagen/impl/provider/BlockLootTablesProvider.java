@@ -3,6 +3,7 @@ package me.stevenplayzz.skinnedlanterns.datagen.impl.provider;
 import me.stevenplayzz.skinnedlanterns.block.SkinnedLanternBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTablesProvider;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class BlockLootTablesProvider extends FabricBlockLootTablesProvider {
     public BlockLootTablesProvider(FabricDataGenerator dataGenerator) {
@@ -111,17 +112,21 @@ public class BlockLootTablesProvider extends FabricBlockLootTablesProvider {
         addDrop(SkinnedLanternBlocks.SNOWMAN_LANTERN_BLOCK);
         addDrop(SkinnedLanternBlocks.SNOWMAN_SOUL_LANTERN_BLOCK);
 
-//        addDrop(SkinnedLanternBlocks.JELLYFISH_LANTERN_BLOCK);
-//        addDrop(SkinnedLanternBlocks.JELLYFISH_SOUL_LANTERN_BLOCK);
-//        addDrop(SkinnedLanternBlocks.BLUE_JELLYFISH_LANTERN_BLOCK);
-//        addDrop(SkinnedLanternBlocks.BLUE_JELLYFISH_SOUL_LANTERN_BLOCK);
+        if (FabricLoader.getInstance().isModLoaded("jellyfishing")) {
+            addDrop(SkinnedLanternBlocks.JELLYFISH_LANTERN_BLOCK);
+            addDrop(SkinnedLanternBlocks.JELLYFISH_SOUL_LANTERN_BLOCK);
+            addDrop(SkinnedLanternBlocks.BLUE_JELLYFISH_LANTERN_BLOCK);
+            addDrop(SkinnedLanternBlocks.BLUE_JELLYFISH_SOUL_LANTERN_BLOCK);
+        }
 
         addDrop(SkinnedLanternBlocks.HONEY_LANTERN_BLOCK);
         addDrop(SkinnedLanternBlocks.HONEY_SOUL_LANTERN_BLOCK);
         addDrop(SkinnedLanternBlocks.SLIME_LANTERN_BLOCK);
         addDrop(SkinnedLanternBlocks.SLIME_SOUL_LANTERN_BLOCK);
 
-//        addDrop(SkinnedLanternBlocks.LIL_TATER_LANTERN_BLOCK);
-//        addDrop(SkinnedLanternBlocks.LIL_TATER_SOUL_LANTERN_BLOCK);
+        if (FabricLoader.getInstance().isModLoaded("botania")) {
+            addDrop(SkinnedLanternBlocks.TINY_POTATO_LANTERN_BLOCK);
+            addDrop(SkinnedLanternBlocks.TINY_POTATO_SOUL_LANTERN_BLOCK);
+        }
     }
 }
