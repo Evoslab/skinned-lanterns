@@ -1,43 +1,22 @@
+<p align="center"><img src="https://raw.githubusercontent.com/teamauroramods/EnhancedMushrooms-Forge/master/src/main/resources/logo.png" width=60%></p>
+<h3 align="center">Enhanced Mushrooms</h3>
 
-# Skinned-Lanterns-Fabric
-
-This Mod adds skinned Lanterns to the Game.
-
-Not using Fabric? There is also a Forge version available [here](https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns).
-
- 🎄 Christmas Update 🎄
-
-![](https://i.imgur.com/E3UjnnI.png)
-
-![](https://i.imgur.com/Xgu82t8.gif)
-
-![](https://i.imgur.com/OHXm6A6.png)
-
-![](https://i.imgur.com/qEl77Pv.gif)
-
-![](https://i.imgur.com/oUNoK2X.png)
-
-![](https://i.imgur.com/MSoCeip.gif)
-
-![](https://i.imgur.com/19Yfrtf.png)
-
-![](https://i.imgur.com/7kZVqJh.gif)
-
-## 1.17:
-![](https://media.discordapp.net/attachments/507982666755473427/787376807757348874/unknown.png)
-
-**All Lanterns can be crafted with Normal and Soul Lanterns to change the light level.**
-
-## Mod Compatibility:
-
-Little Tater Reloaded (LTR)
-![](https://i.imgur.com/sRfWqlG.png)
-
-*Requires Fabric API!*
-![](https://media.forgecdn.net/avatars/thumbnails/185/822/64/64/636829723898798601.png)
-
-## Discord
-
-Suggestions or Feedback? Join the [Discord](https://discord.com/invite/MDfJxJZ)
-
-This Mod may be used in Modpacks
+<p align="center">Minecraft 1.16's new wood types are new nether mushrooms. Enhanced Mushrooms aims to add consistency by making red and brown mushrooms also work as wood types.</p>
+<p align="center">
+  Requires Pollen
+</p>
+<p align="center">
+  <a href="https://discord.gg/VzXSCFp"><img src="https://img.shields.io/discord/440256241932173323?label=&color=4C3828&labelColor=936E4D&logo=Discord&logoColor=4C3828&style=for-the-badge"></a>
+  <a href="https://twitter.com/teamauroramods"><img src="https://img.shields.io/twitter/follow/teamauroramods?label=&color=4C3828&labelColor=936E4D&logo=Twitter&logoColor=4C3828&style=for-the-badge"></a>
+  <a href="https://github.com/teamauroramods/EnhancedMushrooms/blob/1.18.x/LICENSE"><img src="https://img.shields.io/badge/License-All%20rights%20reserved-red.svg?style=for-the-badge&color=4C3828&labelColor=936E4D"></a>
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/-Forge-orange?style=for-the-badge&color=e04e14">
+  <a href="https://www.curseforge.com/minecraft/mc-mods/enhanced-mushrooms"><img src="http://cf.way2muchnoise.eu/383725.svg?badge_style=for_the_badge"></a>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/enhanced-mushrooms"><img src="http://cf.way2muchnoise.eu/versions/383725.svg?badge_style=for_the_badge"></a>
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/-Fabric-orange?style=for-the-badge&color=e04e14">
+  <a href="https://www.curseforge.com/minecraft/mc-mods/enhanced-mushrooms-fabric"><img src="http://cf.way2muchnoise.eu/474078.svg?badge_style=for_the_badge"></a>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/enhanced-mushrooms-fabric"><img src="http://cf.way2muchnoise.eu/versions/474078.svg?badge_style=for_the_badge"></a>
+</p>
