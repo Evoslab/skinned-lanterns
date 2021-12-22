@@ -62,10 +62,6 @@ repositories {
         name "Jamieswhiteshirt Maven"
         url "https://maven.jamieswhiteshirt.com/libs-release/"
     }
-
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 dependencies {
