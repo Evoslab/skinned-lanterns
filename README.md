@@ -21,3 +21,5 @@
   <a href="https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns-fabric"><img src="http://cf.way2muchnoise.eu/422527.svg?badge_style=for_the_badge"></a>
   <a href="https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns-fabric"><img src="http://cf.way2muchnoise.eu/versions/422527.svg?badge_style=for_the_badge"></a>
 </p>
+
+<p align="center"><a href="https://twitter.com/uraneptus2">Thanks to uraneptus for the logo and icon go follow them on twitter!</p>
