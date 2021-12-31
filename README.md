@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/StevePlayzz/Skinned-Lanterns-Fabric/blob/1.18.x/src/main/resources/assets/skinnedlanterns/logo-background.png?raw=true" width=60%></p>
+<p align="center"><img src="https://github.com/StevePlayzz/Skinned-Lanterns-Fabric/blob/1.18.x/src/main/resources/assets/skinnedlanterns/logo-background.png?raw=true" width="1903" height="1070" /></p>
 <h3 align="center">Skinned Lanterns</h3>
 
 <p align="center">A mod that adds more Lanterns to the game! Inspired by Skinned Carts!</p>
@@ -22,4 +22,6 @@
   <a href="https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns-fabric"><img src="http://cf.way2muchnoise.eu/versions/422527.svg?badge_style=for_the_badge"></a>
 </p>
 
-<p align="center"><a href="https://twitter.com/uraneptus2">Thanks to uraneptus for the logo and icon go follow them on twitter!</p>
+<p align="center">
+    <a href="https://twitter.com/uraneptus2">Thanks to uraneptus for the logo and icon go follow them on twitter!</a>
+</p>
