@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/StevePlayzz/Skinned-Lanterns-Fabric/blob/1.18.x/src/main/resources/assets/skinnedlanterns/logo-background.png?raw=true" width="1903" height="1070" /></p>
+<p align="center"><img src="https://github.com/StevePlayzz/Skinned-Lanterns-Fabric/blob/1.18.x/src/main/resources/assets/skinnedlanterns/logo-background.png?raw=true" width=60%></p>
 <h3 align="center">Skinned Lanterns</h3>
 
 <p align="center">A mod that adds more Lanterns to the game! Inspired by Skinned Carts!</p>
