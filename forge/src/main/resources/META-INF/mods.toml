@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "[39,)"
+issueTrackerURL = "https://github.com/CookiejarTeam/${repo}/issues"
+license = "GPLv3"
+
+[[mods]]
+modId = "${id}"
+version = "${version}"
+displayName = "${name}"
+authors = "Cookiejar"
+credits = "Nuxnux, StevenPlayzz, Evo"
+description = "A bundle of new lanterns!"
+displayURL = "https://www.cookiejar.gg"
+#updateJSONURL = ""
+logoFile = "logo.png"
+
+[[dependencies.${id}]]
+modId = "forge"
+mandatory = true
+versionRange = "[39,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${id}]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${id}]]
+modId = "pollen"
+mandatory = true
+versionRange = "[1.0.0,)"
+ordering = "BEFORE"
+side = "BOTH"

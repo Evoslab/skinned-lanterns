@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.cookiejarmodding.el_huevo.core.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "client": [
+  ],
+  "mixins": [
+    "ServerLevelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
