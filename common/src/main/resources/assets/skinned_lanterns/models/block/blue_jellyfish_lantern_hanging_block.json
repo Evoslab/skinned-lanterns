@@ -1,6 +1,6 @@
 {
-  "parent": "skinnedlanterns:block/jellyfish_lantern_hanging_template",
+  "parent": "skinned_lanterns:block/jellyfish_lantern_hanging_template",
   "textures": {
-    "0": "skinnedlanterns:block/blue_jellyfish_lantern"
+    "0": "skinned_lanterns:block/blue_jellyfish_lantern"
   }
 }

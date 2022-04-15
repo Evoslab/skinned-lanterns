@@ -1,6 +1,6 @@
 {
-  "parent": "skinnedlanterns:block/top_side_lantern_template",
+  "parent": "skinned_lanterns:block/top_side_lantern_template",
   "textures": {
-    "2": "skinnedlanterns:block/ornament_lime_lantern"
+    "2": "skinned_lanterns:block/ornament_lime_lantern"
   }
 }

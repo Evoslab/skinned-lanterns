@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:soul_lantern"
+    },
+    {
+      "item": "jellyfishing:blue_jellyfish_jelly"
+    }
+  ],
+  "result": {
+    "item": "skinned_lanterns:blue_jellyfish_soul_lantern_block",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "skinned_lanterns:enabled",
+      "name": "blue_jellyfish_soul_lantern"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "jellyfishing"
+    }
+  ]
+}

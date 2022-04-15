@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "skinnedlanterns:ghost_soul_lantern_block"
+      "item": "skinned_lanterns:ghost_soul_lantern_block"
     },
     {
       "item": "minecraft:pink_dye"
     }
   ],
   "result": {
-    "item": "skinnedlanterns:pinky_soul_lantern_block",
+    "item": "skinned_lanterns:pinky_soul_lantern_block",
     "count": 1
   }
 }

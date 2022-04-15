@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author StevenPlayzz
  */
+
 @SuppressWarnings("deprecation")
 public class FaceableSkinnedLanternBlock extends LanternBlock implements SimpleWaterloggedBlock {
     protected static final VoxelShape AABB = Shapes.or(Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D), Block.box(6.0D, 8.0D, 6.0D, 10.0D, 9.0D, 10.0D));

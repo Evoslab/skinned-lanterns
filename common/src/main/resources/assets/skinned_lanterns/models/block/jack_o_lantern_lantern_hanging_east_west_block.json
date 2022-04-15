@@ -1,6 +1,6 @@
 {
-	"parent": "skinnedlanterns:block/jack_o_lantern_lantern_hanging_east_west_template",
+	"parent": "skinned_lanterns:block/jack_o_lantern_lantern_hanging_east_west_template",
 	"textures": {
-		"2": "skinnedlanterns:block/jack_o_lantern_lantern"
+		"2": "skinned_lanterns:block/jack_o_lantern_lantern"
 	}
 }

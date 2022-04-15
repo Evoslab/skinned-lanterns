@@ -1,6 +1,0 @@
-{
-  "parent": "skinnedlanterns:block/head_lantern_hanging_template",
-  "textures": {
-    "2": "skinnedlanterns:block/lil_tater_lantern"
-  }
-}

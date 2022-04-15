@@ -1,12 +1,12 @@
 {
   "variants": {
-    "facing=north,hanging=false": { "model": "skinnedlanterns:block/blinky_lantern_block", "y":  180},
-    "facing=south,hanging=false": { "model": "skinnedlanterns:block/blinky_lantern_block"},
-    "facing=west,hanging=false": { "model": "skinnedlanterns:block/blinky_lantern_block", "y":  90},
-    "facing=east,hanging=false": { "model": "skinnedlanterns:block/blinky_lantern_block", "y":  270},
-    "facing=north,hanging=true": { "model": "skinnedlanterns:block/blinky_lantern_hanging_block", "y":  180},
-    "facing=south,hanging=true": { "model": "skinnedlanterns:block/blinky_lantern_hanging_block"},
-    "facing=west,hanging=true": { "model": "skinnedlanterns:block/blinky_lantern_hanging_east_west_block", "y":  90},
-    "facing=east,hanging=true": { "model": "skinnedlanterns:block/blinky_lantern_hanging_east_west_block", "y":  270}
+    "facing=north,hanging=false": { "model": "skinned_lanterns:block/blinky_lantern_block", "y":  180},
+    "facing=south,hanging=false": { "model": "skinned_lanterns:block/blinky_lantern_block"},
+    "facing=west,hanging=false": { "model": "skinned_lanterns:block/blinky_lantern_block", "y":  90},
+    "facing=east,hanging=false": { "model": "skinned_lanterns:block/blinky_lantern_block", "y":  270},
+    "facing=north,hanging=true": { "model": "skinned_lanterns:block/blinky_lantern_hanging_block", "y":  180},
+    "facing=south,hanging=true": { "model": "skinned_lanterns:block/blinky_lantern_hanging_block"},
+    "facing=west,hanging=true": { "model": "skinned_lanterns:block/blinky_lantern_hanging_east_west_block", "y":  90},
+    "facing=east,hanging=true": { "model": "skinned_lanterns:block/blinky_lantern_hanging_east_west_block", "y":  270}
   }
 }

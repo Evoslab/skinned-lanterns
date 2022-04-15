@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "skinnedlanterns:paper_white_soul_lantern_block"
+      "item": "skinned_lanterns:paper_white_soul_lantern_block"
     },
     {
       "item": "minecraft:blue_dye"
     }
   ],
   "result": {
-    "item": "skinnedlanterns:paper_blue_soul_lantern_block",
+    "item": "skinned_lanterns:paper_blue_soul_lantern_block",
     "count": 1
   }
 }

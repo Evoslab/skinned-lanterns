@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "skinned_lanterns:blue_jellyfish_lantern_block"
+        }
+      ]
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "value": {
+        "condition": "fabric:all_mods_loaded",
+        "values": [
+          "techreborn"
+        ]
+      }
+    }
+  ]
+}

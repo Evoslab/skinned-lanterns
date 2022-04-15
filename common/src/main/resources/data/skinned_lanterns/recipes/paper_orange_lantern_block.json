@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "skinnedlanterns:paper_white_lantern_block"
+      "item": "skinned_lanterns:paper_white_lantern_block"
     },
     {
       "item": "minecraft:orange_dye"
     }
   ],
   "result": {
-    "item": "skinnedlanterns:paper_orange_lantern_block",
+    "item": "skinned_lanterns:paper_orange_lantern_block",
     "count": 1
   }
 }

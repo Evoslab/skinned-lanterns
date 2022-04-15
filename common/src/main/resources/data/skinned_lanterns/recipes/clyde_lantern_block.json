@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "skinnedlanterns:ghost_lantern_block"
+      "item": "skinned_lanterns:ghost_lantern_block"
     },
     {
       "item": "minecraft:orange_dye"
     }
   ],
   "result": {
-    "item": "skinnedlanterns:clyde_lantern_block",
+    "item": "skinned_lanterns:clyde_lantern_block",
     "count": 1
   }
 }
