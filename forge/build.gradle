@@ -7,16 +7,16 @@ plugins {
 
 archivesBaseName = "${rootProject.archivesBaseName}-${project.name}"
 
-loom {
-//    accessWidenerPath.set(project(":common").file("src/main/resources/${project.mod_id}.accesswidener"))
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
 
+loom {
     forge {
         // For some reason gradle doesn't like using rootProject here?
         mixinConfig "${project.mod_id}-common.mixins.json"
         mixinConfig "${project.mod_id}.mixins.json"
-
-//        convertAccessWideners.set(true)
-//        extraAccessWideners.add("${project.mod_id}.accesswidener")
 
         dataGen {
             mod project.mod_id
@@ -25,20 +25,6 @@ loom {
     mixin {
         defaultRefmapName = "${project.mod_id}-refmap.json"
     }
-    launches {
-        data {
-            arg "--existing", file("src/main/resources").absolutePath
-        }
-    }
-}
-
-sourceSets.main.resources {
-    srcDir file("src/generated/resources")
-}
-
-architectury {
-    platformSetupLoomIde()
-    forge()
 }
 
 configurations {
@@ -49,13 +35,14 @@ configurations {
     developmentForge.extendsFrom common
 }
 
+
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
     modApi("gg.moonflower:pollen-forge:${rootProject.pollen_version}") { transitive = false }
 
-    modRuntimeOnly "curse.maven:configured-457570:3559398"
-    modRuntimeOnly "curse.maven:catalogue-459701:3559402"
+//	modRuntimeOnly "curse.maven:configured-457570:3533860"
+//  modRuntimeOnly "curse.maven:catalogue-459701:3529457"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -83,7 +70,7 @@ processResources {
 
 shadowJar {
     exclude "fabric.mod.json"
-    exclude "architectury.common.json"
+    exclude "archiectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
     classifier "dev-shadow"
@@ -119,3 +106,33 @@ publishing {
         }
     }
 }
+
+//unifiedPublishing {
+//    project {
+//        displayName = "[Forge ${rootProject.minecraft_version}] v${rootProject.mod_version}" // Optional, name of the file
+//        releaseType = "release" // Optional, use "release", "beta" or "alpha"
+//        gameVersions = ["${rootProject.minecraft_version}"]
+//        gameLoaders = ["forge"]
+//        changelog = "${rootProject.releaseChangelog}" // Optional, in markdown format
+//
+//        mainPublication tasks.remapJar // Declares the publicated jar
+//
+//        relations {
+//            depends { // Mark as a required dependency
+//                curseforge = "pollen" // Optional, project slug
+//            }
+//        }
+//
+//        curseforge {
+//            token = System.getenv().CF_TOKEN
+//            id = "422527" // Required, must be a string, ID of CurseForge project
+//            version = "$project.version+$project.name"
+//        }
+//
+//        modrinth {
+//            token = System.getenv().MODRINTH_TOKEN
+//            id = "9vBrbT9c" // Required, must be a string, ID of Modrinth project
+//            gameVersions.addAll "Java 17", "Java 18", "1.18.2", "1.18-Snapshot"
+//        }
+//    }
+//}

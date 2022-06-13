@@ -3,14 +3,9 @@ package gg.cookiejar.skinned_lanterns.core.registry;
 import gg.cookiejar.skinned_lanterns.common.block.FaceableSkinnedLanternBlock;
 import gg.cookiejar.skinned_lanterns.common.block.SkinnedLanternBlock;
 import gg.cookiejar.skinned_lanterns.common.item.TabInsertBlockItem;
-import gg.cookiejar.skinned_lanterns.core.SkinnedLanterns;
-import gg.cookiejar.skinned_lanterns.core.datagen.SkinnedLanternsLanguage;
-import gg.moonflower.pollen.api.item.TabInsertItem;
 import gg.moonflower.pollen.api.platform.Platform;
 import gg.moonflower.pollen.api.registry.PollinatedBlockRegistry;
 import gg.moonflower.pollen.api.registry.PollinatedRegistry;
-import net.minecraft.core.Registry;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -142,7 +137,6 @@ public class SkinnedLanternsBlocks {
     private static Supplier<Block> registerBlock(String id, Supplier<Block> block, Item.Properties properties, Item insert) {
         Supplier<Block> register = BLOCKS.register(id, block);
         SkinnedLanternsItems.ITEMS.register(id, () -> new TabInsertBlockItem(insert, register.get(), properties));
-        SkinnedLanternsLanguage.BLOCKS.put(register, SkinnedLanternsLanguage.capitalize(id));
         return register;
     }
 
@@ -150,7 +144,6 @@ public class SkinnedLanternsBlocks {
         if (Platform.isModLoaded(mod)) {
             Supplier<Block> register = BLOCKS.register(id, block);
             SkinnedLanternsItems.ITEMS.register(id, () -> new TabInsertBlockItem(insert, register.get(), properties));
-            SkinnedLanternsLanguage.BLOCKS.put(register, SkinnedLanternsLanguage.capitalize(id));
             return register;
         }
         else return null;

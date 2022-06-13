@@ -1,16 +1,32 @@
+import java.text.SimpleDateFormat
+
+buildscript {
+    repositories {
+        maven {
+            url = "https://playzzbrosmods.jfrog.io/artifactory/mods-gradle-dev" // The Artifactory (preferably virtual) repository to resolve from
+        }
+    }
+    dependencies {
+        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.+')
+    }
+}
+
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.10.0-SNAPSHOT" apply false
-    id "io.github.juuxel.loom-quiltflower-mini" version "1.0.0" apply false
+    id "io.github.juuxel.loom-quiltflower" version "1.7.1" apply false
+    id "me.shedaniel.unified-publishing" version "0.1.+"
 }
 
 architectury {
     minecraft = rootProject.minecraft_version
 }
+version = currentVersion
 
 subprojects {
+    apply plugin: "me.shedaniel.unified-publishing"
     apply plugin: "dev.architectury.loom"
-    apply plugin: "io.github.juuxel.loom-quiltflower-mini"
+    apply plugin: "io.github.juuxel.loom-quiltflower"
 
     loom {
         silentMojangMappingsLicense()
@@ -29,6 +45,7 @@ allprojects {
     apply plugin: "java"
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
+    apply plugin: 'com.jfrog.artifactory'
 
     archivesBaseName = rootProject.name
     version = "${rootProject.mod_version}+${rootProject.minecraft_version}"
@@ -45,6 +62,9 @@ allprojects {
                 includeGroup "curse.maven"
             }
         }
+        maven {
+            url "https://playzzbrosmods.jfrog.io/artifactory/mods-gradle-dev"
+        }
     }
 
     tasks.withType(JavaCompile) {
@@ -55,4 +75,66 @@ allprojects {
     java {
         withSourcesJar()
     }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+    artifactory {
+        contextUrl = 'https://playzzbrosmods.jfrog.io/artifactory'
+        publish {
+            repository {
+                repoKey = 'mods-gradle-dev-local' // The Artifactory repository key to publish to\
+                username = System.getenv().MAVEN_USER
+                password = System.getenv().MAVEN_PASS
+            }
+            defaults {
+                // Reference to Gradle publications defined in the build script.
+                // This is how we tell the Artifactory Plugin which artifacts should be
+                // published to Artifactory.
+                publications('mavenJava')
+                publishArtifacts = true
+                // Publish generated POM files to Artifactory (true by default)
+                publishPom = true
+            }
+        }
+    }
+}
+
+
+/* Thank you shedaniel & rei & modmenu & fablabs ;) */
+
+ext {
+    releaseChangelog = "No changelog"
+}
+
+task changeLog {
+    def df = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    def branch
+    if (System.env.BRANCH_NAME) {
+        branch = System.env.BRANCH_NAME
+        branch = branch.substring(branch.lastIndexOf("/") + 1)
+    } else {
+        branch = "git rev-parse --abbrev-ref HEAD".execute().in.text.trim()
+    }
+    if (branch == "HEAD") {
+        branch = "git rev-parse --short HEAD".execute().in.text.trim()
+    }
+    def time = df.format(new Date())
+    def changes = new StringBuilder()
+    changes << "## Skinned Lanterns v$project.version for $project.minecraft_version\nUpdated at **$time**.\n![Click here for changelog](https://github.com/Evoslab/skinned-lanterns/commits/$branch)"
+    def proc = "git log --max-count=200 --pretty=format:%s".execute()
+    proc.in.eachLine { line ->
+        def processedLine = line.toString()
+        if (!processedLine.contains("New translations") && !processedLine.contains("Merge") && !processedLine.contains("branch")) {
+            changes << "\n- ${processedLine.capitalize()}"
+        }
+    }
+    proc.waitFor()
+    releaseChangelog = changes.toString()
 }
