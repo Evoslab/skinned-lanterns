@@ -4,9 +4,11 @@
   "version": "${version}",
 
   "name": "Skinned Lanterns",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "A mod that adds more Lanterns to the game! Inspired by Skinned Carts!",
   "authors": [
-    "Me!"
+    "StevenPlayzz",
+    "NuxNux",
+    "Evo"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns-fabric",
