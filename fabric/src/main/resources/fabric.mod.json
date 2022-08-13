@@ -1,29 +1,40 @@
 {
   "schemaVersion": 1,
-  "id": "${id}",
+  "id": "skinned_lanterns",
   "version": "${version}",
-  "name": "${name}",
-  "description": "A bundle of new lanterns!",
-  "authors": [ "Cookiejar Modding" ],
-  "contributors": [ "Nuxnux", "StevenPlayzz", "Evo" ],
+
+  "name": "Skinned Lanterns",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
   "contact": {
-    "homepage": "https://cookiejar.gg",
-	"issues": "https://github.com/CokkiejarTeam/${repo}/issues",
-    "sources": "https://github.com/CokkiejarTeam/${repo}/"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns-fabric",
+    "sources": "https://github.com/Evoslab/skinned-lanterns"
   },
-  "license": "GPLv3",
+
+  "license": "MIT",
+  "icon": "assets/skinned_lanterns/icon.png",
+
   "environment": "*",
   "entrypoints": {
     "main": [
-      "gg.cookiejar.skinned_lanterns.core.fabric.SkinnedLanternsFabric"
+      "cookiejar.skinned_lanterns.SkinnedLanternsFabric"
     ],
-    "fabric-datagen": [
-      "gg.cookiejar.skinned_lanterns.core.fabric.SkinnedLanternsFabricDatagen"
+    "client": [
+      "cookiejar.skinned_lanterns.client.SkinnedLanternsFabricClient"
     ]
   },
+  "mixins": [
+  ],
+
   "depends": {
+    "fabricloader": ">=0.14",
     "fabric": "*",
-    "minecraft": "1.18.x",
-    "pollen": ">=1.4.1 <2.0.0"
+    "minecraft": "1.19.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
   }
 }

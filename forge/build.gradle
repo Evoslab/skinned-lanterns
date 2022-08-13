@@ -1,138 +1,105 @@
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-
-plugins {
-    id "com.github.johnrengelman.shadow" version "7.0.0"
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+    }
 }
+apply plugin: 'java'
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
-archivesBaseName = "${rootProject.archivesBaseName}-${project.name}"
+archivesBaseName = "${mod_name}-forge-${minecraft_version}"
 
-architectury {
-    platformSetupLoomIde()
-    forge()
-}
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+    
+    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
+        // This location is hardcoded in Forge and can not be changed.
+        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
+        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+        project.logger.debug('Forge Access Transformers are enabled for this project.')
+    }
 
-loom {
-    forge {
-        // For some reason gradle doesn't like using rootProject here?
-        mixinConfig "${project.mod_id}-common.mixins.json"
-        mixinConfig "${project.mod_id}.mixins.json"
+    runs {
+        client {
+            workingDirectory project.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Client'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modClientRun {
+                    source sourceSets.main
+                    source project(":Common").sourceSets.main
+                }
+            }
+        }
 
-        dataGen {
-            mod project.mod_id
+        server {
+            workingDirectory project.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Server'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modServerRun {
+                    source sourceSets.main
+                    source project(":Common").sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            taskName 'Data'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modDataRun {
+                    source sourceSets.main
+                    source project(":Common").sourceSets.main
+                }
+            }
         }
     }
-    mixin {
-        defaultRefmapName = "${project.mod_id}-refmap.json"
-    }
 }
 
-configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
-}
-
+sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    compileOnly project(":Common")
+}
 
-    modApi("gg.moonflower:pollen-forge:${rootProject.pollen_version}") { transitive = false }
-
-//	modRuntimeOnly "curse.maven:configured-457570:3533860"
-//  modRuntimeOnly "curse.maven:catalogue-459701:3529457"
-
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+tasks.withType(JavaCompile) {
+    source(project(":Common").sourceSets.main.allSource)
 }
 
 processResources {
-    inputs.property "id", rootProject.mod_id
-    inputs.property "name", rootProject.mod_name
-    inputs.property "version", rootProject.mod_version
-    inputs.property "repo", rootProject.name
-
-    filesMatching(["META-INF/mods.toml", "pack.mcmeta"]) {
-        expand "id": rootProject.mod_id,
-                "name": rootProject.mod_name,
-                "version": rootProject.mod_version,
-                "repo": rootProject.name
-    }
-
-    doLast {
-        fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
-            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
-        }
-    }
+    from project(":Common").sourceSets.main.resources
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
-    exclude "archiectury.common.json"
 
-    configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
-}
-
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    classifier null
-}
-
-jar {
-    classifier "dev"
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
+jar.finalizedBy('reobfJar')
 
 publishing {
     publications {
-        mavenForge(MavenPublication) {
-            artifactId = project.archivesBaseName
-            from components.java
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://" + System.getenv("local_maven")
         }
     }
 }
-
-//unifiedPublishing {
-//    project {
-//        displayName = "[Forge ${rootProject.minecraft_version}] v${rootProject.mod_version}" // Optional, name of the file
-//        releaseType = "release" // Optional, use "release", "beta" or "alpha"
-//        gameVersions = ["${rootProject.minecraft_version}"]
-//        gameLoaders = ["forge"]
-//        changelog = "${rootProject.releaseChangelog}" // Optional, in markdown format
-//
-//        mainPublication tasks.remapJar // Declares the publicated jar
-//
-//        relations {
-//            depends { // Mark as a required dependency
-//                curseforge = "pollen" // Optional, project slug
-//            }
-//        }
-//
-//        curseforge {
-//            token = System.getenv().CF_TOKEN
-//            id = "422527" // Required, must be a string, ID of CurseForge project
-//            version = "$project.version+$project.name"
-//        }
-//
-//        modrinth {
-//            token = System.getenv().MODRINTH_TOKEN
-//            id = "9vBrbT9c" // Required, must be a string, ID of Modrinth project
-//            gameVersions.addAll "Java 17", "Java 18", "1.18.2", "1.18-Snapshot"
-//        }
-//    }
-//}

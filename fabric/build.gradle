@@ -1,142 +1,63 @@
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'maven-publish'
+    id 'idea'
 }
 
-archivesBaseName = "${rootProject.archivesBaseName}-${project.name}"
-
-architectury {
-    platformSetupLoomIde()
-    fabric()
-}
-
-def generatedResources = file("src/generated/resources")
-
-loom {
-    mixin {
-        defaultRefmapName = "${project.mod_id}-refmap.json"
-    }
-}
-
-sourceSets.main.resources {
-    srcDir generatedResources
-}
-
-configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
-}
-
-
-repositories {
-    maven { url "https://maven.terraformersmc.com/" }
-}
+archivesBaseName = "${mod_name}-fabric-${minecraft_version}"
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    modApi("gg.moonflower:pollen-fabric:${rootProject.pollen_version}") { transitive = false }
-
-    modRuntimeOnly "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
-
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    implementation project(":Common")
 }
 
-processResources {
-    inputs.property "id", rootProject.mod_id
-    inputs.property "name", rootProject.mod_name
-    inputs.property "version", rootProject.mod_version
-    inputs.property "repo", rootProject.name
-
-    filesMatching("fabric.mod.json") {
-        expand "id": rootProject.mod_id,
-                "name": rootProject.mod_name,
-                "version": rootProject.mod_version,
-                "repo": rootProject.name
-    }
-
-    doLast {
-        fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
-            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+loom {
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            runDir("run")
         }
     }
 }
 
-shadowJar {
-    exclude "archiectury.common.json"
+processResources {
+    from project(":Common").sourceSets.main.resources
+    inputs.property "version", project.version
 
-    configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
-}
-
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    classifier null
-}
-
-jar {
-    classifier "dev"
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-    duplicatesStrategy(DuplicatesStrategy.INCLUDE)
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
     }
+}
+
+tasks.withType(JavaCompile) {
+    source(project(":Common").sourceSets.main.allSource)
 }
 
 publishing {
     publications {
-        mavenFabric(MavenPublication) {
-            artifactId = project.archivesBaseName
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
             from components.java
         }
     }
-}
 
-unifiedPublishing {
-    project {
-        displayName = "[Fabric ${rootProject.minecraft_version}] v${rootProject.mod_version}" // Optional, name of the file
-        releaseType = "beta" // Optional, use "release", "beta" or "alpha"
-        gameVersions = ["${rootProject.minecraft_version}"]
-        gameLoaders = ["fabric"]
-        changelog = "${rootProject.releaseChangelog}" // Optional, in markdown format
-
-        mainPublication tasks.remapJar // Declares the publicated jar
-
-        relations {
-            depends { // Mark as a required dependency
-                curseforge = "fabric-api" // Optional, project slug
-                modrinth = "fabric-api" // Optional, project slug or id
-            }
-            depends { // Mark as a required dependency
-                curseforge = "pollen" // Optional, project slug
-            }
-        }
-
-        curseforge {
-            token = System.getenv().CF_TOKEN
-            id = "422527" // Required, must be a string, ID of CurseForge project
-            version = "$project.version+$project.name"
-        }
-
-        modrinth {
-            token = System.getenv().MODRINTH_TOKEN
-            id = "9vBrbT9c" // Required, must be a string, ID of Modrinth project
-            gameVersions.addAll "Java 17", "Java 18", "1.18.2", "1.18-Snapshot"
+    repositories {
+        maven {
+            url "file://" + System.getenv("local_maven")
         }
     }
 }

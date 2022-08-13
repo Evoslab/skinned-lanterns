@@ -1,5 +1,6 @@
 {
-  "itemGroup.moreLanternsTab": "Skinned Lanterns",
+  "itemGroup.skinned_lanterns.skinned_tab": "Skinned Lanterns",
+  "itemGroup.skinned_tab": "Skinned Lanterns",
 
   "block.skinned_lanterns.pufferfish_lantern_block": "Pufferfish Lantern",
   "block.skinned_lanterns.pufferfish_soul_lantern_block": "Pufferfish Soul Lantern",
