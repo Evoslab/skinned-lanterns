@@ -1,6 +1,6 @@
 {
   "parent": "skinned_lanterns:block/ghost_lantern_template",
   "textures": {
-    "2": "skinned_lanterns:block/pinky_lantern"
+    "2": "skinned_lanterns:blocks/pinky_lantern"
   }
 }

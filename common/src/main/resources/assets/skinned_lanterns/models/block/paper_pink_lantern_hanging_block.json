@@ -1,6 +1,6 @@
 {
   "parent": "skinned_lanterns:block/paper_lantern_hanging_template",
   "textures": {
-    "2": "skinned_lanterns:block/paper_pink_lantern"
+    "2": "skinned_lanterns:blocks/paper_pink_lantern"
   }
 }

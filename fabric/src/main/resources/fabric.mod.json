@@ -2,41 +2,32 @@
   "schemaVersion": 1,
   "id": "skinned_lanterns",
   "version": "${version}",
-
   "name": "Skinned Lanterns",
-  "description": "A mod that adds more Lanterns to the game! Inspired by Skinned Carts!",
+  "description": "Adds vibrant lanterns that bring a new level of light and cheer to your world!",
   "authors": [
-    "StevenPlayzz",
-    "NuxNux",
-    "Evo"
+    "Nuxnux",
+    "Evo",
+    "StevenPlayzz"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns-fabric",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/skinned-lanterns",
     "sources": "https://github.com/Evoslab/skinned-lanterns"
   },
-
   "license": "MIT",
   "icon": "assets/skinned_lanterns/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
-      "cookiejar.skinned_lanterns.SkinnedLanternsFabric"
-    ],
-    "client": [
-      "cookiejar.skinned_lanterns.client.SkinnedLanternsFabricClient"
+      "com.cookiejar.skinned_lanterns.core.fabric.SkinnedLanternsFabric"
     ]
   },
   "mixins": [
+    "skinned_lanterns.mixins.json",
+    "skinned_lanterns-common.mixins.json"
   ],
-
   "depends": {
-    "fabricloader": ">=0.14",
     "fabric": "*",
-    "minecraft": "1.19.x",
-    "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "minecraft": ">=1.19.2",
+    "architectury": ">=6.2.43"
   }
 }

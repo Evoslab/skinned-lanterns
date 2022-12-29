@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "skinned_lanterns:block/bee_lantern",
+		"0": "skinned_lanterns:blocks/bee_lantern",
 		"1": "block/lantern",
 		"particle": "block/chain"
 	},

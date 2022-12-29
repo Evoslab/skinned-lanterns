@@ -4,7 +4,7 @@
 	"textures": {
 		"1": "block/lantern",
 		"2": "entity/snow_golem",
-		"3": "skinned_lanterns:block/carrot",
+		"3": "skinned_lanterns:blocks/carrot",
 		"particle": "block/chain"
 	},
 	"elements": [

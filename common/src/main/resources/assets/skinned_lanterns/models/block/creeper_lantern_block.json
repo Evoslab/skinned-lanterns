@@ -1,6 +1,6 @@
 {
 	"parent": "skinned_lanterns:block/head_lantern_template",
 	"textures": {
-		"2": "skinned_lanterns:block/creeper_lantern"
+		"2": "skinned_lanterns:blocks/creeper_lantern"
 	}
 }
